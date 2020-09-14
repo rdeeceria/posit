@@ -33,5 +33,7 @@ public $default = [
 
 Untuk login:
 
-`username:` admin@example.com<br/>
-`password:` admin123<br/>
+`username` admin@example.com<br/>
+`password` admin123<br/>
+
+Credits To: [wildanfuady - ilmucoding.com](https://github.com/wildanfuady/ci4_sip/)
