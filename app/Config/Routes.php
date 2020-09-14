@@ -33,6 +33,7 @@ $routes->setAutoRoute(true);
 
 $routes->get('/', 'Dashboard::index');
 $routes->get('/dashboard', 'Dashboard::index');
+$routes->get('/category', 'Category::index');
 
 $routes->get('/sse', 'Sse::index');
 $routes->get('/stream', 'Sse::stream');

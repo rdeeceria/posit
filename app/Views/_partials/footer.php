@@ -7,7 +7,7 @@
  
 <footer class="main-footer">
     <div class="float-right d-none d-sm-inline">
-        Point Of Sale
+        Point Of Sale Information Technology
     </div>
     <strong>Copyright © 2020 <a href="<?php echo base_url('/'); ?>">POSIT</a></strong> All rights reserved.
 </footer>
