@@ -5,33 +5,14 @@ use App\Models\Category_model;
   
 class Category extends Controller
 {
-    public function breadcrumb()
-    {
-        $uri = service('uri');
-        $segment = $uri->getSegments();
-        $total = $uri->getTotalSegments();
-
-        foreach($segment as $k => $v) {
-            $bread[$k] = '<li class="breadcrumb-item"><a href="/'.$v.'">'.ucfirst($v).'</a></li>';
-        }
-        
-        if($bread > 2) {
-            array_pop($bread);
-        }
-        array_splice($bread, -1, $total, '<li class="breadcrumb-item active">'.ucfirst($v).'</li>');
-        
-        return $bread;
-    }
-
     public function index()
     { 
         $model = new Category_model();
         $view = array(
             'title' => 'Categories',
             'categories' => $model->getCategory(),
-            'bread' => $this->breadcrumb(),
         );
-        echo view('category/main', $view);
+        echo view('category/index', $view);
     }
 
     public function create()
@@ -39,7 +20,6 @@ class Category extends Controller
         $view = array(
             'title' => 'Tambah Category',
             'action' => base_url('category/tambah'),
-            'bread' => $this->breadcrumb(),
         );
 
         if(session()->getFlashdata('inputs')) {       

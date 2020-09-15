@@ -1,3 +1,4 @@
+<?php $uri = service('uri'); ?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="<?php echo base_url('/'); ?>" class="brand-link">
       <img src="<?php echo base_url('themes/dist'); ?>/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -16,25 +17,25 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="<?php echo base_url('/'); ?>" class="nav-link">
+                    <a href="<?php echo base_url('dashboard'); ?>" class="nav-link <?php echo $uri->getSegment(1) == 'dashboard' ? 'active': '' ?>">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('category'); ?>" class="nav-link">
+                    <a href="<?php echo base_url('category'); ?>" class="nav-link <?php echo $uri->getSegment(1) == 'category' ? 'active': '' ?>">
                         <i class="nav-icon fas fa-tags"></i>
                         <p>Manajement Category</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('product'); ?>" class="nav-link">
+                    <a href="<?php echo base_url('product'); ?>" class="nav-link <?php echo $uri->getSegment(1) == 'product' ? 'active': '' ?>">
                         <i class="nav-icon fas fa-cart-plus"></i>
                         <p>Manajement Product</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?php echo base_url('transaction'); ?>" class="nav-link">
+                    <a href="<?php echo base_url('transaction'); ?>" class="nav-link <?php echo $uri->getSegment(1) == 'transaction' ? 'active': '' ?>">
                         <i class="nav-icon fas fa-dollar-sign"></i>
                         <p>Manajement Transaction</p>
                     </a>

@@ -1,34 +1,8 @@
 <?php
-echo view('_partials/header');
-echo view('_partials/sidebar'); 
 
 $inputs = session()->getFlashdata('inputs');
 $errors = session()->getFlashdata('errors');
 ?>
- 
-<title><?= esc($title); ?></title>
-
-<div class="content-wrapper">
-  <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0 text-dark"><?= esc($title); ?></h1>
-        </div>
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="/">Home</a></li>
-            <?php foreach($bread as $segment) { echo $segment; } ?>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
- 
-  <div class="content">
-    <div class="container-fluid">
-      <div class="row">
-          <div class="col-md-12">
             <form action="<?= $action; ?>" method="post">
               <div class="card">
                 <div class="card-body">
@@ -63,9 +37,3 @@ $errors = session()->getFlashdata('errors');
                 </div>
               </div>
             </form>
-          </div>
-      </div>
-    </div>
-  </div>
-</div>
-<?php echo view('_partials/footer'); ?>
