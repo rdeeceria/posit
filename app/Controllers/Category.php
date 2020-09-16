@@ -3,117 +3,98 @@
 use CodeIgniter\Controller;
 use App\Models\Category_model;
   
-class Category extends Controller
+class Category extends BaseController
 {
     public function index()
     { 
-        $model = new Category_model();
         $view = array(
+            'content' => 'category/list',
             'title' => 'Categories',
-            'categories' => $model->getCategory(),
+            'data' => [
+                'categories' => $this->CategoryModel->getCategory(),
+            ],
         );
-        echo view('category/index', $view);
+        echo view('index', $view);
     }
 
     public function create()
     {
         $view = array(
-            'title' => 'Tambah Category',
-            'action' => base_url('category/tambah'),
+            'content' => 'category/create',
+            'title' => 'Categories',
+            'data' => [
+                'action' => base_url('category/post'),
+                'validation' => \Config\Services::validation(),
+            ],
         );
-
-        if(session()->getFlashdata('inputs')) {       
-            echo view('category/create', $view);
-        }
-        else
-        {
-            $data = array(
-                'category_name' => '',
-                'category_status' => '',
-            );
-            session()->setFlashdata('inputs', $data);
-            echo view('category/create', $view);
-        }  
+        echo view('index', $view);
     }
 
-    public function edit($id)
+    public function update($id)
     {
-        $model = new Category_model();
-        $row = $model->getCategory($id);
+        $row = $this->CategoryModel->getCategory($id);
         $view = array(
-            'title' => 'Edit Category',
-            'action' => base_url('category/ubah/'.$id),
-            'bread' => $this->breadcrumb(),
+            'content' => 'category/update',
+            'title' => 'Categories',
+            'data' => [
+                'action' => base_url('category/put'),
+                'validation' => \Config\Services::validation(),
+                'category_id' => $row['category_id'],
+                'category_name' => $row['category_name'],
+                'category_status' => $row['category_status'],
+            ],
         );
-        $data = array(
-            'category_id' => $row['category_id'],
-            'category_name' => $row['category_name'],
-            'category_status' => $row['category_status'],
-        );
-        session()->setFlashdata('inputs', $data);
-        echo view('category/edit', $view); 
+        echo view('index', $view);
     }
     
-    public function delete()
+    public function delete($id)
 	{
-        $id = $this->request->uri->getSegment(3);
-		$model = new Category_model();
-        $hapus = $model->delete($id);
-        if($hapus) {
-            session()->setFlashdata('warning', 'Deleted Category successfully');
-            return redirect()->route('/category'); 
+        $data = $this->CategoryModel->getCategory($id);
+        $delete = $this->CategoryModel->deleteCategory($id);
+        if($delete) {
+            $this->session->setFlashdata('delete', 'Delete Category Name '.$data['category_name'].' Successfully');
+            return redirect()->to('/category'); 
         }
 	}
 
-    public function getDataPost()
+    public function post()
     {
+        $rules = $this->CategoryModel->validationRules();
+
+        if (! $this->validate($rules)) {
+            return redirect()->to('/category/create')->withInput();
+        }
+        
         $data = array(
             'category_name' => $this->request->getPost('category_name'),
             'category_status' => $this->request->getPost('category_status'),
         );
-        return $data;
-    }
- 
-    public function tambah()
-    {
-        $validation = \Config\Services::validation();
+        $post = $this->CategoryModel->postCategory($data);
 
-        if($validation->run(Category::getDataPost(), 'category') == FALSE) {
-            session()->setFlashdata('inputs', $this->getDataPost());
-            session()->setFlashdata('errors', $validation->getErrors());
-        
-            $model = new Category_model();
-            $simpan = $model->putCategory(NULL, $this->getDataPost());
-            if($simpan) {
-                session()->setFlashdata('success', 'Created Category successfully');
-                return redirect()->route('/category');
-            }
-        }
-        else
-        {
-            return redirect()->to(base_url('category/create'));
+        if($post) {
+            $this->session->setFlashdata('update', 'Create Category Name '.$data['category_name'].' Successfully');
+            return redirect()->to('/category');
         }
     }
 
-    public function ubah()
+    public function put()
     {
-        $validation = \Config\Services::validation();
-        $id = $this->request->uri->getSegment(3);
+        $id = $this->request->getPost('category_id');
+        $rules = $this->CategoryModel->validationRules($id);
 
-        if($validation->run(Category::getDataPost(), 'category') == FALSE) {
-            session()->setFlashdata('inputs', $this->getDataPost());
-            session()->setFlashdata('errors', $validation->getErrors());
-        
-            $model = new Category_model();
-            $simpan = $model->putCategory($id, $this->getDataPost());
-            if($simpan) {
-                session()->setFlashdata('info', 'Updated Category successfully');
-                return redirect()->route('/category'); 
-            }
+        if (! $this->validate($rules)) {
+            return redirect()->to('/category/update/'.$id)->withInput();
         }
-        else
-        {
-            return redirect()->to(base_url('category/edit/'.$id));
+        
+        $data = array(
+            'category_name' => $this->request->getPost('category_name'),
+            'category_status' => $this->request->getPost('category_status'),
+        );
+        $put = $this->CategoryModel->putCategory($id, $data);
+
+        if($put) {
+            $this->session->setFlashdata('update', 'Update Category Name '.$data['category_name'].' Successfully');
+            return redirect()->to('/category');
         }
     }
 

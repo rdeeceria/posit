@@ -8,24 +8,24 @@ class Category_model extends Model
     protected $primaryKey = 'category_id';
     protected $allowedFields = ['category_name','category_status'];
 
-    public function rules()
+    public function validationRules($id = null)
     {
-        return [
+        $rules = [
         'category_name' => [
-            'label' => 'category_name',
-            'rules' => 'is_unique[users.category_name]|max_length[100]',
+            'label' => 'Category Name',
+            'rules' => 'required|max_length[10]|is_unique[categories.category_name,category_id,'.$id.']',
             'errors' => [
-                'is_unique' => 'Anda Memasukan nama {field} sudah ada',
-                'max_length' => 'Anda Memasukan nama {field} terlalu panjang',
+                'is_unique' => 'Data {field} Sudah Ada',
+                'max_length' => '{field} Maximum 10 Character',
                 ]
             ]
         ];
+        return $rules;
     }
 
-    public function getCategory($id = NULL)
+    public function getCategory($id = null)
     {
-        if(empty($id))
-        {
+        if(empty($id)) {
             return $this->orderBy('category_id DESC')->findAll();
         }
         else
@@ -34,20 +34,18 @@ class Category_model extends Model
         } 
     }
 
-    public function putCategory($id, $data)
+    public function postCategory($data) 
     {
-        if(empty($id))
-        {
-            return $this->insert($data);
-        }
-        else
-        {
-            return $this->update($id, $data);
-        }
+        return $this->insert($data);
     }
 
-    public function delCategory($id)
+    public function putCategory($id, $data)
     {
+        return $this->update($id, $data);
+    }
+
+    public function deleteCategory($id) {
+
         return $this->delete($id);
     }
 }

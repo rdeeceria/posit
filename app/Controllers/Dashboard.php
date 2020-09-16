@@ -5,10 +5,12 @@ class Dashboard extends BaseController
     public function index()
     {
         $view = array(
+            'content' => 'dashboard',
             'title' => 'Dashboard',
+            'data' => [],
         );
 
-        echo view('dashboard', $view);
+        echo view('index', $view);
     }
      
 }

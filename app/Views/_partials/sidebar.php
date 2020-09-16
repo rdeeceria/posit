@@ -25,19 +25,19 @@
                 <li class="nav-item">
                     <a href="<?php echo base_url('category'); ?>" class="nav-link <?php echo $uri->getSegment(1) == 'category' ? 'active': '' ?>">
                         <i class="nav-icon fas fa-tags"></i>
-                        <p>Manajement Category</p>
+                        <p>Category</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo base_url('product'); ?>" class="nav-link <?php echo $uri->getSegment(1) == 'product' ? 'active': '' ?>">
                         <i class="nav-icon fas fa-cart-plus"></i>
-                        <p>Manajement Product</p>
+                        <p>Product</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="<?php echo base_url('transaction'); ?>" class="nav-link <?php echo $uri->getSegment(1) == 'transaction' ? 'active': '' ?>">
                         <i class="nav-icon fas fa-dollar-sign"></i>
-                        <p>Manajement Transaction</p>
+                        <p>Transaction</p>
                     </a>
                 </li>
                 <li class="nav-header">ACCOUNT</li>
