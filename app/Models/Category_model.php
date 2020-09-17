@@ -10,7 +10,7 @@ class Category_model extends Model
 
     public function validationRules($id = null)
     {
-        $rules = [
+        return [
         'category_name' => [
             'label' => 'Category Name',
             'rules' => 'required|max_length[10]|is_unique[categories.category_name,category_id,'.$id.']',
@@ -20,7 +20,6 @@ class Category_model extends Model
                 ]
             ]
         ];
-        return $rules;
     }
 
     public function getCategory($id = null)

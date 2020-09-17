@@ -8,43 +8,43 @@ class Products extends Migration
 	{
 		$this->db->enableForeignKeyChecks();
 		$this->forge->addField([
-			'product_id'			=> [
-				'type'           	=> 'BIGINT',
-				'constraint'     	=> 20,
-				'unsigned'       	=> TRUE,
-				'auto_increment' 	=> TRUE
+			'product_id'				=> [
+				'type'           		=> 'CHAR',
+				'constraint'     		=> 13,
+				'unsigned'       		=> TRUE,
+				'auto_increment' 		=> FALSE
 			],
-			'category_id'        	=> [
-				'type'           	=> 'BIGINT',
-				'constraint'     	=> 20,
-				'unsigned'       	=> TRUE,
-				'null'				=> TRUE
+			'category_id'				=> [
+				'type'        	   	=> 'CHAR',
+				'constraint'  	   	=> 13,
+				'unsigned'    	   	=> TRUE,
+				'null'							=> TRUE
 			],
-			'product_name'       	=> [
-				'type'           	=> 'VARCHAR',
-				'constraint'     	=> '100',
+			'product_name'			=> [
+				'type'          	 	=> 'VARCHAR',
+				'constraint'    	 	=> 30,
 			],
-			'product_price'       	=> [
-				'type'           	=> 'INT',
-				'constraint'     	=> '11',
+			'product_price'			=> [
+				'type'          	 	=> 'INT',
+				'constraint'   	  	=> 13,
 			],
-			'product_sku'       	=> [
-				'type'           	=> 'VARCHAR',
-				'constraint'     	=> '100',
+			'product_sku'				=> [
+				'type'         	  	=> 'VARCHAR',
+				'constraint'   	  	=> 13,
 			],
-			'product_status'       	=> [
-				'type'           	=> 'ENUM',
-				'constraint' 		=> "'Active','Inactive'",
-        		'default' 			=> 'Active'
+			'product_status'		=> [
+				'type'          	 	=> 'ENUM',
+				'constraint' 				=> "'Active','Inactive'",
+      	'default' 					=> 'Active'
 			],
-			'product_image'       	=> [
-				'type'           	=> 'VARCHAR',
-				'constraint'     	=> '100',
-				'null'           	=> TRUE,
+			'product_image'			=> [
+				'type'           		=> 'VARCHAR',
+				'constraint'     		=> 100,
+				'null'           		=> TRUE,
 			],
-			'product_description' 	=> [
-				'type'           	=> 'TEXT',
-				'null'           	=> TRUE,
+			'product_description'	=> [
+				'type'           		=> 'TEXT',
+				'null'           		=> TRUE,
 			],
 		]);
 		$this->forge->addKey('product_id', TRUE);

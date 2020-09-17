@@ -32,16 +32,16 @@ class Category extends BaseController
 
     public function update($id)
     {
-        $row = $this->CategoryModel->getCategory($id);
+        $v = $this->CategoryModel->getCategory($id);
         $view = array(
             'content' => 'category/update',
             'title' => 'Categories',
             'data' => [
                 'action' => base_url('category/put'),
                 'validation' => \Config\Services::validation(),
-                'category_id' => $row['category_id'],
-                'category_name' => $row['category_name'],
-                'category_status' => $row['category_status'],
+                'category_id' => $v['category_id'],
+                'category_name' => $v['category_name'],
+                'category_status' => $v['category_status'],
             ],
         );
         echo view('index', $view);
@@ -52,7 +52,7 @@ class Category extends BaseController
         $data = $this->CategoryModel->getCategory($id);
         $delete = $this->CategoryModel->deleteCategory($id);
         if($delete) {
-            $this->session->setFlashdata('delete', 'Delete Category Name '.$data['category_name'].' Successfully');
+            $this->session->setFlashdata('warning', 'Delete Category Name '.$data['category_name'].' Successfully');
             return redirect()->to('/category'); 
         }
 	}
@@ -61,7 +61,7 @@ class Category extends BaseController
     {
         $rules = $this->CategoryModel->validationRules();
 
-        if (! $this->validate($rules)) {
+        if(! $this->validate($rules)) {
             return redirect()->to('/category/create')->withInput();
         }
         
@@ -72,7 +72,7 @@ class Category extends BaseController
         $post = $this->CategoryModel->postCategory($data);
 
         if($post) {
-            $this->session->setFlashdata('update', 'Create Category Name '.$data['category_name'].' Successfully');
+            $this->session->setFlashdata('success', 'Create Category Name '.$data['category_name'].' Successfully');
             return redirect()->to('/category');
         }
     }
@@ -82,7 +82,7 @@ class Category extends BaseController
         $id = $this->request->getPost('category_id');
         $rules = $this->CategoryModel->validationRules($id);
 
-        if (! $this->validate($rules)) {
+        if(! $this->validate($rules)) {
             return redirect()->to('/category/update/'.$id)->withInput();
         }
         
@@ -93,9 +93,8 @@ class Category extends BaseController
         $put = $this->CategoryModel->putCategory($id, $data);
 
         if($put) {
-            $this->session->setFlashdata('update', 'Update Category Name '.$data['category_name'].' Successfully');
+            $this->session->setFlashdata('info', 'Update Category Name '.$data['category_name'].' Successfully');
             return redirect()->to('/category');
         }
     }
-
 }

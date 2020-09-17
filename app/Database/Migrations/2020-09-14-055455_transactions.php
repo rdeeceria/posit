@@ -8,21 +8,21 @@ class Transactions extends Migration
 	{
 		$this->db->enableForeignKeyChecks();
 		$this->forge->addField([
-			'trx_id'				=> [
-				'type'           	=> 'BIGINT',
-				'constraint'     	=> 20,
+			'trx_id'					=> [
+				'type'           	=> 'CHAR',
+				'constraint'     	=> 13,
 				'unsigned'       	=> TRUE,
-				'auto_increment' 	=> TRUE
+				'auto_increment' 	=> FALSE
 			],
 			'product_id'			=> [
-				'type'           	=> 'BIGINT',
-				'constraint'     	=> 20,
+				'type'           	=> 'CHAR',
+				'constraint'     	=> 13,
 				'unsigned'       	=> TRUE,
-				'null'				=> TRUE
+				'null'						=> TRUE
 			],
-			'trx_price'       		=> [
+			'trx_price'				=> [
 				'type'           	=> 'INT',
-				'constraint'     	=> '11',
+				'constraint'     	=> 13,
 			],
 			'trx_date'       		=> [
 				'type'           	=> 'DATE'

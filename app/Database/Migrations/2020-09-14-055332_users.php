@@ -7,35 +7,35 @@ class Users extends Migration
 	public function up()
 	{
 		$this->forge->addField([
-			'id'			=> [
-				'type'           	=> 'BIGINT',
-				'constraint'     	=> 20,
-				'unsigned'       	=> TRUE,
-				'auto_increment' 	=> TRUE
+			'id'				=> [
+				'type'						=> 'CHAR',
+				'constraint'			=> 13,
+				'unsigned'				=> TRUE,
+				'auto_increment'	=> FALSE,
 			],
-			'username'       		=> [
+			'username'	=> [
+				'type'						=> 'VARCHAR',
+				'constraint'			=> 20,
+			],
+			'name'			=> [
 				'type'           	=> 'VARCHAR',
-				'constraint'     	=> '100',
+				'constraint'     	=> 30,
 			],
-			'name'       			=> [
+			'email'			=> [
 				'type'           	=> 'VARCHAR',
-				'constraint'     	=> '100',
+				'constraint'     	=> 30,
 			],
-			'email'       			=> [
+			'password'	=> [
 				'type'           	=> 'VARCHAR',
-				'constraint'     	=> '100',
+				'constraint'     	=> 255,
 			],
-			'password'       		=> [
-				'type'           	=> 'VARCHAR',
-				'constraint'     	=> '255',
-			],
-			'status' 				=> [
-				'type'           	=> 'ENUM',
+			'status'		=> [
+				'type'					=> 'ENUM',
 				'constraint' 		=> "'Active','Inactive'",
 				'default' 			=> 'Active'
 			],
-			'level' 				=> [
-				'type'           	=> 'ENUM',
+			'level'			=> [
+				'type'					=> 'ENUM',
 				'constraint' 		=> "'Admin','User'",
 				'default' 			=> 'Admin'
 			],

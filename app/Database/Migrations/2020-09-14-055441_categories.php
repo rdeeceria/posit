@@ -8,19 +8,19 @@ class Categories extends Migration
 	{
 		$this->forge->addField([
 			'category_id'			=> [
-				'type'           	=> 'BIGINT',
-				'constraint'     	=> 20,
+				'type'           	=> 'CHAR',
+				'constraint'     	=> 13,
 				'unsigned'       	=> TRUE,
-				'auto_increment' 	=> TRUE
+				'auto_increment' 	=> FALSE
 			],
-			'category_name'       	=> [
-				'type'           	=> 'VARCHAR',
-				'constraint'     	=> '100',
+			'category_name'		=> [
+				'type'						=> 'VARCHAR',
+				'constraint'			=> 20,
 			],
-			'category_status' 		=> [
-				'type'           	=> 'ENUM',
-				'constraint' 		=> "'Active','Inactive'",
-				'default' 			=> 'Active'
+			'category_status'	=> [
+				'type'						=> 'ENUM',
+				'constraint' 			=> "'Active','Inactive'",
+				'default' 				=> 'Active'
 			],
 		]);
 		$this->forge->addKey('category_id', TRUE);

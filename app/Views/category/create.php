@@ -9,7 +9,8 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="<?= $action; csrf_field(); ?>" method="post">
+                        <form action="<?= $action; ?>" method="post">
+                            <?= csrf_field(); ?>
                             <div class="form-group">
                                 <label for="">Name</label>
                                 <input type="text" class="form-control <?= ($validation->hasError('category_name')) ? 'is-invalid' : ''; ?>" \

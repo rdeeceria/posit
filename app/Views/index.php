@@ -3,7 +3,7 @@
 <head>
   <?php echo view('_partials/head'); ?>
 </head>
-<body class="hold-transition sidebar-mini sidebar-collapse">
+<body class="hold-transition sidebar-mini">
 
 <div class="wrapper">  
 
