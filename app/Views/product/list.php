@@ -54,7 +54,7 @@ if(! empty(session()->getFlashdata('warning'))) {
   <div class="card-header">
     <h5 class="card-title"><i class="fas fa-tags"></i> List Category</h5>
     <div class="card-tools">
-      <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='<?= esc($create); ?>'"><i class="fas fa-file-alt"></i> Tambah
+      <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='<?php echo base_url('category/create'); ?>'"><i class="fas fa-file-alt"></i> Tambah
       </button>
       <button type="button" class="btn btn-default btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i>
       </button>
@@ -79,7 +79,7 @@ if(! empty(session()->getFlashdata('warning'))) {
         <td><?= esc($v['category_status']); ?></td>
         <td>
         <div class="btn-group">
-          <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['category_name']); ?>" onclick="window.location.href='<?= esc($update.$v['category_id']); ?>'">
+          <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['category_name']); ?>" onclick="window.location.href='<?php echo base_url('category/update/'.$v['category_id']); ?>'">
           <i class="fa fa-edit"></i> Edit</button>
           <button type="button" class="btn btn-warning btn-sm" title="<?= esc($v['category_name']); ?>" data-toggle="modal" data-target="#modal_<?= esc($k) ?>">
           <i class="fa fa-trash-alt"></i> Delete</button>
@@ -91,7 +91,7 @@ if(! empty(session()->getFlashdata('warning'))) {
             'class' => 'bg-warning',
             'title' => 'Delete Category',
             'bodytext' => 'Anda Yakin Ingin Menghapus Kategori '.$v['category_name'],
-            'action' => esc($delete.$v['category_id']),
+            'action' => base_url('/category/delete/'.$v['category_id']),
             ];
           echo view('events/modals', $modals);
         ?>

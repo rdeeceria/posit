@@ -31,9 +31,17 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->get('/', 'Dashboard::index');
-$routes->get('/dashboard', 'Dashboard::index');
-$routes->get('/category', 'Category::index');
+$routes->get('dashboard', 'Dashboard::index');
+$routes->addRedirect('/', 'dashboard');
+
+$routes->get('category', 'Category::index');
+$routes->match(['get', 'post'], 'category/create', 'Category::create');
+$routes->match(['get', 'post'], 'category/update/(:any)', 'Category::update/$1');
+$routes->addRedirect('category/update', 'category');
+$routes->delete('category/delete/(:any)', 'Category::delete/$1');
+
+$routes->get('/product', 'Product::index');
+$routes->get('/transaction', 'Transaction::index');
 
 $routes->get('/sse', 'Sse::index');
 $routes->get('/stream', 'Sse::stream');
