@@ -44,9 +44,8 @@ if(! empty(session()->getFlashdata('warning'))) {
   echo view('events/toasts', $toast);
 }
 ?>
-
-<div class="content">
-<div class="container-fluid">
+<?= $this->extend('partials/index') ?>
+<?= $this->section('content') ?>
 <div class="row">
 <div class="col-lg-12">
 
@@ -72,16 +71,16 @@ if(! empty(session()->getFlashdata('warning'))) {
         </tr>
       </thead>
       <tbody>
-      <?php foreach($categories as $k => $v): ?>
-      <?php echo $v['category_status'] == 'Inactive' ? '<tr style="background-color: #80808020;">' : '<tr>';?>
-        <td><?= esc($k) + 1; ?></td>
-        <td><?= esc($v['category_name']); ?></td>
-        <td><?= esc($v['category_status']); ?></td>
+      <?php foreach($list as $k => $v): ?>
+      <?= esc($v['category_status']) == 'Inactive' ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
+        <td><?= esc(++$k) ?></td>
+        <td><?= esc($v['category_name']) ?></td>
+        <td><?= esc($v['category_status']) ?></td>
         <td>
         <div class="btn-group">
-          <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['category_name']); ?>" onclick="window.location.href='<?= esc($update.$v['category_id']); ?>'">
+          <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['category_name']) ?>" onclick="window.location.href='<?= esc($update . $v['category_id']) ?>'">
           <i class="fa fa-edit"></i> Edit</button>
-          <button type="button" class="btn btn-warning btn-sm" title="<?= esc($v['category_name']); ?>" data-toggle="modal" data-target="#modal_<?= esc($k) ?>">
+          <button type="button" class="btn btn-warning btn-sm" title="<?= esc($v['category_name']) ?>" data-toggle="modal" data-target="#modal_<?= esc($k) ?>">
           <i class="fa fa-trash-alt"></i> Delete</button>
         </div>
         <?php
@@ -91,7 +90,7 @@ if(! empty(session()->getFlashdata('warning'))) {
             'class' => 'bg-warning',
             'title' => 'Delete Category',
             'bodytext' => 'Anda Yakin Ingin Menghapus Kategori '.$v['category_name'],
-            'action' => esc($delete.$v['category_id']),
+            'action' => esc($delete . $v['category_id']),
             ];
           echo view('events/modals', $modals);
         ?>
@@ -106,6 +105,4 @@ if(! empty(session()->getFlashdata('warning'))) {
 
 </div>
 </div>
-</div>
-</div>
-</div>
+<?= $this->endSection() ?>

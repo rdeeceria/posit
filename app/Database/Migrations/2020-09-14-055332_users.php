@@ -10,8 +10,7 @@ class Users extends Migration
 			'id'				=> [
 				'type'						=> 'CHAR',
 				'constraint'			=> 13,
-				'unsigned'				=> TRUE,
-				'auto_increment'	=> FALSE,
+				'null'        		=> FALSE,
 			],
 			'username'	=> [
 				'type'						=> 'VARCHAR',
@@ -31,16 +30,17 @@ class Users extends Migration
 			],
 			'status'		=> [
 				'type'					=> 'ENUM',
-				'constraint' 		=> "'Active','Inactive'",
+				'constraint' 		=> ['Active','Inactive'],
 				'default' 			=> 'Active'
 			],
 			'level'			=> [
 				'type'					=> 'ENUM',
-				'constraint' 		=> "'Admin','User'",
+				'constraint' 		=> ['Admin','User'],
 				'default' 			=> 'Admin'
 			],
 		]);
-		$this->forge->addKey('id', TRUE);
+		$this->forge->addKey('id');
+		$this->forge->addPrimaryKey('id');
 		$this->forge->createTable('users');
 	}
 

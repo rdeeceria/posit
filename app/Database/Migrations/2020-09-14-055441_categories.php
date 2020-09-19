@@ -10,8 +10,7 @@ class Categories extends Migration
 			'category_id'			=> [
 				'type'           	=> 'CHAR',
 				'constraint'     	=> 13,
-				'unsigned'       	=> TRUE,
-				'auto_increment' 	=> FALSE
+				'null'        		=> FALSE,
 			],
 			'category_name'		=> [
 				'type'						=> 'VARCHAR',
@@ -19,11 +18,12 @@ class Categories extends Migration
 			],
 			'category_status'	=> [
 				'type'						=> 'ENUM',
-				'constraint' 			=> "'Active','Inactive'",
+				'constraint' 			=> ['Active','Inactive'],
 				'default' 				=> 'Active'
 			],
 		]);
-		$this->forge->addKey('category_id', TRUE);
+		$this->forge->addKey('category_id');
+		$this->forge->addPrimaryKey('category_id');
 		$this->forge->createTable('categories');
 	}
 

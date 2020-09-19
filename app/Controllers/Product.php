@@ -1,17 +1,27 @@
 <?php namespace App\Controllers;
 
-class Category extends BaseController
+class Product extends BaseController
 {
+  protected $categories = [];
+
+  public function __construct()
+  {
+    helper('form');
+    $this->categories = array(
+      '' => 'Choose Category'
+      ) + array_column(BaseController::Categories()->getStatus(1), 'category_name', 'category_id');
+  }
+
   public function index()
   { 
     $view = array(
-      'content' => 'category/list',
-      'title' => 'Categories',
+      'content' => 'product/list',
+      'title' => 'Product',
       'data' => [
-        'categories' => $this->CategoryModel->getCategory(),
-        'create' => base_url('category/create'),
-        'update' => base_url('category/update').'/',
-        'delete' => base_url('category/delete').'/',
+        'list' => BaseController::Products()->getProduct(),
+        'create' => '/product/create',
+        'update' => '/product/update/',
+        'delete' => '/product/delete/',
         ],
     );
     echo view('index', $view);
@@ -22,33 +32,37 @@ class Category extends BaseController
     if($this->request->getMethod() === 'get') 
     {
       $view = array(
-        'content' => 'category/create',
-        'title' => 'Categories',
+        'content' => 'product/create',
+        'title' => 'Product',
         'data' => [
           'validation' => $this->validation,
-          'action' => base_url('category/create'),
-          'back' => base_url('category'),
+          'categories' => $this->categories,
+          'action' => '/product/create',
+          'back' => '/product',
           ],
       );
       echo view('index', $view);
     }
     else
     {
-      $rules = $this->CategoryModel->validationRules();
+      $rules = BaseController::Products()->validationRules();
+
+      
+      $image = $this->request->getFile('product_image');
+      $data = $this->request->getPost();
+      
+      //dd($data);
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
-  
-      $data = array(
-        'category_name' => $this->request->getPost('category_name'),
-        'category_status' => $this->request->getPost('category_status'),
-      );
-      $post = $this->CategoryModel->postCategory($data);
+
+
+      $post = $this->productModel->postProduct($data);
   
       if($post) {
-        $this->session->setFlashdata('success', 'Create Category Name '.$data['category_name'].' Successfully');
-        return redirect()->route('category');
+        $this->session->setFlashdata('success', 'Create product Name '.$data['product_name'].' Successfully');
+        return redirect()->route('product');
       }
     }
   }
@@ -57,49 +71,46 @@ class Category extends BaseController
   {
     if($this->request->getMethod() === 'get') 
     {
-      $v = $this->CategoryModel->getCategory($id);
+      $v = $this->productModel->getProduct($id);
       $view = array(
-        'content' => 'category/update',
-        'title' => 'Categories',
+        'content' => 'product/update',
+        'title' => 'Product',
         'data' => [
-          'action' => base_url('category/update/'.$id),
-          'back' => base_url('category'),
+          'action' => '/product/update/'.$id,
+          'back' => '/product',
           'validation' => $this->validation,
-          'category_name' => $v['category_name'],
-          'category_status' => $v['category_status'],
+          'product_name' => $v['product_name'],
+          'product_status' => $v['product_status'],
           ],
       );
       echo view('index', $view);
     }
     else
     {
-      $rules = $this->CategoryModel->validationRules($id);
+      $rules = $this->productModel->validationRules($id);
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
   
-      $data = array(
-        'category_name' => $this->request->getPost('category_name'),
-        'category_status' => $this->request->getPost('category_status'),
-      );
-      $put = $this->CategoryModel->putCategory($id, $data);
+      $data = $this->request->getPost();
+      $put = $this->productModel->putProduct($id, $data);
   
       if($put) {
-        $this->session->setFlashdata('info', 'Update Category Name '.$data['category_name'].' Successfully');
-        return redirect()->route('category');
+        $this->session->setFlashdata('info', 'Update product Name '.$data['product_name'].' Successfully');
+        return redirect()->route('product');
       }
     }
   }
 
   public function delete($id)
   {
-    $data = $this->CategoryModel->getCategory($id);
-    $delete = $this->CategoryModel->deleteCategory($id);
+    $data = $this->productModel->getProduct($id);
+    $delete = $this->productModel->deleteProduct($id);
     
     if($delete) {
-      $this->session->setFlashdata('warning', 'Delete Category Name '.$data['category_name'].' Successfully');
-      return redirect()->route('category'); 
+      $this->session->setFlashdata('warning', 'Delete product Name '.$data['product_name'].' Successfully');
+      return redirect()->route('product'); 
     }
   }
 }

@@ -8,27 +8,27 @@ class Transactions extends Migration
 	{
 		$this->db->enableForeignKeyChecks();
 		$this->forge->addField([
-			'trx_id'					=> [
+			'trx_id'				=> [
 				'type'           	=> 'CHAR',
 				'constraint'     	=> 13,
-				'unsigned'       	=> TRUE,
-				'auto_increment' 	=> FALSE
+				'null'        		=> FALSE,
 			],
-			'product_id'			=> [
+			'product_id'		=> [
 				'type'           	=> 'CHAR',
 				'constraint'     	=> 13,
-				'unsigned'       	=> TRUE,
-				'null'						=> TRUE
+				'null'						=> FALSE,
 			],
-			'trx_price'				=> [
+			'trx_price'			=> [
 				'type'           	=> 'INT',
 				'constraint'     	=> 13,
 			],
-			'trx_date'       		=> [
-				'type'           	=> 'DATE'
+			'trx_date'      => [
+				'type'           	=> 'DATE',
 			],
 		]);
-		$this->forge->addKey('trx_id', TRUE);
+		$this->forge->addKey('trx_id');
+		$this->forge->addKey('trx_date');
+		$this->forge->addPrimaryKey('trx_id');
 		$this->forge->addForeignKey('product_id','products','product_id','CASCADE','CASCADE');
 		$this->forge->createTable('transactions');
 	}

@@ -3,9 +3,8 @@
 <?php foreach ($uri->getSegments() as $segment): ?>
 	<?php 
 		$url = substr((string)$uri, 0, strpos((string)$uri, $segment)) . $segment;
-		$is_active =  $url == (string)$uri;
+		$is_active = ($url == (string)$uri);
 	?>
-
 	<li class="breadcrumb-item <?php echo $is_active ? 'active': '' ?>">
 		<?php if($is_active): ?>
 			<?php echo ucfirst($segment) ?>

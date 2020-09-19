@@ -1,12 +1,11 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
-
 class Category_model extends Model
 {
   protected $table = 'categories';
   protected $primaryKey = 'category_id';
-  protected $allowedFields = ['category_name','category_status'];
+  protected $allowedFields = ['category_id','category_name','category_status'];
 
   public function validationRules($id = null)
   {
@@ -35,7 +34,8 @@ class Category_model extends Model
 
   public function postCategory($data) 
   {
-    return $this->insert($data);
+    $this->insert(array('category_id' => uniqid()) + $data);
+    return true;
   }
 
   public function putCategory($id, $data)
@@ -46,5 +46,10 @@ class Category_model extends Model
   public function deleteCategory($id)
   {
     return $this->delete($id);
+  }
+
+  public function getStatus($status)
+  {
+    return $this->where('category_status', $status)->findAll();
   }
 }

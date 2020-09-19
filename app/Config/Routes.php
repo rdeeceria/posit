@@ -37,11 +37,14 @@ $routes->addRedirect('/', 'dashboard');
 $routes->get('category', 'Category::index');
 $routes->match(['get', 'post'], 'category/create', 'Category::create');
 $routes->match(['get', 'post'], 'category/update/(:any)', 'Category::update/$1');
+$routes->get('category/delete/(:any)', 'Category::delete/$1');
 $routes->addRedirect('category/update', 'category');
-$routes->delete('category/delete/(:any)', 'Category::delete/$1');
 
-$routes->get('/product', 'Product::index');
-$routes->get('/transaction', 'Transaction::index');
+$routes->get('product', 'Product::index');
+$routes->match(['get', 'post'], 'product/create', 'Product::create');
+$routes->match(['get', 'post'], 'product/update/(:any)', 'Product::update/$1');
+$routes->get('product/delete/(:any)', 'Product::delete/$1');
+$routes->addRedirect('product/update', 'product');
 
 $routes->get('/sse', 'Sse::index');
 $routes->get('/stream', 'Sse::stream');

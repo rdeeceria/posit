@@ -2,15 +2,13 @@
  
 class Dashboard extends BaseController
 {
-    public function index()
-    {
-        $view = array(
-            'content' => 'dashboard',
-            'title' => 'Dashboard',
-            'data' => [],
-        );
-
-        echo view('index', $view);
-    }
-     
+  function __construct()
+  {
+    view('partials/index', array('subtitle' => 'Dasboard'));
+  }
+  public function index()
+  {
+    echo view('dashboard');
+  }
+    
 }

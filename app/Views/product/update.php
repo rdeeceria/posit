@@ -12,9 +12,8 @@
     <?= csrf_field(); ?>
     <div class="form-group">
       <label for="">Name</label>
-      <input type="hidden" name="category_id" value="<?= esc($category_id); ?>">
       <input type="text" class="form-control <?= ($validation->hasError('category_name')) ? 'is-invalid' : ''; ?>" \
-      name="category_name" placeholder="Enter category name" value="<?= esc($category_name); ?>" required >
+      name="category_name" placeholder="Enter category name" value="<?= (old('category_name') == null) ? esc($category_name) : old('category_name'); ?>" required >
       <div class="invalid-feedback">
       <?= $validation->getError('category_name'); ?>
       </div>
@@ -23,13 +22,14 @@
       <label for="">Status</label>
       <select name="category_status" id="" class="form-control" required>
         <option value="">Choose Category</option>
-        <option <?= (esc($category_status) == 'Active') ? 'selected' : ''; ?> value="Active">Active</option>
-        <option <?= (esc($category_status) == 'Inactive') ? 'selected' : ''; ?> value="Inactive">Inactive</option>
+        <?php $status = old('category_status') == null ? esc($category_status) : old('category_status'); ?>
+        <option <?= esc($status) == 'Active' ? 'selected' : ''; ?> value="Active">Active</option>
+        <option <?= esc($status) == 'Inactive' ? 'selected' : ''; ?> value="Inactive">Inactive</option>
       </select>
     </div>  
   </div>  
   <div class="card-footer">
-    <button type="button" class="btn btn-secondary" onclick="window.location.href='<?php echo base_url('/category'); ?>'">Back</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='<?=esc($back); ?>'">Back</button>
     <button type="submit" class="btn btn-primary">Simpan</button>
   </div>
   </form>

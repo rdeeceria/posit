@@ -2,50 +2,46 @@
 
 class Category extends BaseController
 {
+  function __construct()
+  {
+    helper('form');
+    view('partials/index', array('subtitle' => 'Categories'));
+  }
+
   public function index()
   { 
-    $view = array(
-      'content' => 'category/list',
-      'title' => 'Categories',
-      'data' => [
-        'categories' => $this->CategoryModel->getCategory(),
-        'create' => base_url('category/create'),
-        'update' => base_url('category/update').'/',
-        'delete' => base_url('category/delete').'/',
-        ],
-    );
-    echo view('index', $view);
+    $data = [
+      'list' => BaseController::Categories()->getCategory(),
+      'create' => '/category/create',
+      'update' => '/category/update/',
+      'delete' => '/DELETE/category/delete/',
+    ];
+    echo view('category/list', $data);
   }
 
   public function create()
   {
     if($this->request->getMethod() === 'get') 
     {
-      $view = array(
-        'content' => 'category/create',
-        'title' => 'Categories',
-        'data' => [
-          'validation' => $this->validation,
-          'action' => base_url('category/create'),
-          'back' => base_url('category'),
-          ],
-      );
-      echo view('index', $view);
+      $data = [
+        'validation' => $this->validation,
+        'action' => '/category/create',
+        'back' => '/category',
+      ];
+      echo view('category/create', $data);
     }
     else
     {
-      $rules = $this->CategoryModel->validationRules();
+      $rules = BaseController::Categories()->validationRules();
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
-  
-      $data = array(
-        'category_name' => $this->request->getPost('category_name'),
-        'category_status' => $this->request->getPost('category_status'),
-      );
-      $post = $this->CategoryModel->postCategory($data);
-  
+
+      $data = $this->request->getPost();
+      $post = BaseController::Categories()->postCategory($data);
+      
+      dd($post);
       if($post) {
         $this->session->setFlashdata('success', 'Create Category Name '.$data['category_name'].' Successfully');
         return redirect()->route('category');
@@ -57,33 +53,26 @@ class Category extends BaseController
   {
     if($this->request->getMethod() === 'get') 
     {
-      $v = $this->CategoryModel->getCategory($id);
-      $view = array(
-        'content' => 'category/update',
-        'title' => 'Categories',
-        'data' => [
-          'action' => base_url('category/update/'.$id),
-          'back' => base_url('category'),
-          'validation' => $this->validation,
-          'category_name' => $v['category_name'],
-          'category_status' => $v['category_status'],
-          ],
-      );
-      echo view('index', $view);
+      $v = BaseController::Categories()->getCategory($id);
+      $data = [
+        'action' => '/category/update/'.$id,
+        'back' => '/category',
+        'validation' => $this->validation,
+        'category_name' => $v['category_name'],
+        'category_status' => $v['category_status'],
+      ];
+      echo view('category/update', $data);
     }
     else
     {
-      $rules = $this->CategoryModel->validationRules($id);
+      $rules = BaseController::Categories()->validationRules($id);
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
   
-      $data = array(
-        'category_name' => $this->request->getPost('category_name'),
-        'category_status' => $this->request->getPost('category_status'),
-      );
-      $put = $this->CategoryModel->putCategory($id, $data);
+      $data = $this->request->getPost();
+      $put = BaseController::Categories()->putCategory($id, $data);
   
       if($put) {
         $this->session->setFlashdata('info', 'Update Category Name '.$data['category_name'].' Successfully');
@@ -94,9 +83,9 @@ class Category extends BaseController
 
   public function delete($id)
   {
-    $data = $this->CategoryModel->getCategory($id);
-    $delete = $this->CategoryModel->deleteCategory($id);
-    
+    $data = BaseController::Categories()->getCategory($id);
+    $delete = BaseController::Categories()->deleteCategory($id);
+
     if($delete) {
       $this->session->setFlashdata('warning', 'Delete Category Name '.$data['category_name'].' Successfully');
       return redirect()->route('category'); 
