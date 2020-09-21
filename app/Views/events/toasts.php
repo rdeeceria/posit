@@ -1,5 +1,6 @@
 <script type="text/javascript">
-$(document).Toasts('create', {
+document.addEventListener('DOMContentLoaded', function() {
+  $(document).Toasts('create', {
     class: "<?= esc($class); ?>",
     autohide: <?= esc($autohide); ?>,
     delay: <?= esc($delay); ?>,
@@ -9,5 +10,6 @@ $(document).Toasts('create', {
     icon: "<?= esc($icon); ?>",
     image: "<?= esc($image); ?>",
     imageAlt: "<?= esc($imageAlt); ?>"
+  });
 });
 </script>

@@ -18,7 +18,7 @@
         'name' => 'category_name',
         'placeholder' => 'Enter category name',
         'minlength' => '3',
-        'value' => old('category_name'),
+        'value' => set_value('category_name'),
         'required' => ''
       ];
       echo form_input($name);

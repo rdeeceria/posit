@@ -2,9 +2,9 @@
 
 class Product extends BaseController
 {
-  protected $product = [];
-  protected $getFile;
-  protected $imgName;
+  public $product;
+  public $getFile;
+  public $imgName;
 
   public function __construct()
   {
@@ -25,12 +25,11 @@ class Product extends BaseController
 
   public function create()
   {
-    $segment = $this->request->uri->getSegments(1);
+    $segment = $this->request->uri->getSegment(2);
 
     if($this->request->getMethod() === 'get') 
     {
       $categories = array('' => 'Choose Category') + array_column($this->M_Category->getStatus(1), 'category_name', 'category_id');
-    
       $data = [
         'validation' => $this->validation,
         'categories' => $categories,
@@ -41,17 +40,16 @@ class Product extends BaseController
     }
     else
     {
-      $file = $this->upload($segment);
       $rules = $this->M_Product->validationRules();
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
+      $file = $this->upload($segment);
 
       if($file) {
         $this->getFile->move('uploads/product', $this->imgName);
       } 
-
       $data = $this->request->getPost() + array('product_image' => $this->imgName);
       $post = $this->M_Product->postProduct($data);
       
@@ -64,14 +62,12 @@ class Product extends BaseController
 
   public function update($id)
   {
-    $segment = $this->request->uri->getSegments(1);
-
+    $segment = $this->request->uri->getSegment(2);
     $this->product = $this->M_Product->getProduct($id);
-
+    
     if($this->request->getMethod() === 'get') 
     {
       $categories = array('' => 'Choose Category') + array_column($this->M_Category->getStatus(1), 'category_name', 'category_id');
-
       $data = [
         'action' => '/product/update/'.$id,
         'back' => '/product',
@@ -83,17 +79,16 @@ class Product extends BaseController
     }
     else
     {
-      $file = $this->upload($segment);
       $rules = $this->M_Product->validationRules($id);
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
+      $file = $this->upload($segment);
 
       if($file) {
         $this->getFile->move('uploads/product', $this->imgName);
       } 
-  
       $data = $this->request->getPost() + array('product_image' => $this->imgName);
       $put = $this->M_Product->putProduct($id, $data);
   
@@ -123,42 +118,44 @@ class Product extends BaseController
   public function upload($segment)
   {
     $file = $this->request->getFile('product_image');
-
-    if($segment === 'create')
+    switch($segment)
     {
-      if($file->getErrorString() == "No file was uploaded.")
-      {
-        $this->imgName = 'default.png';
-        return false;
-      }
-      else
-      {
-        $this->imgName = $file->getRandomName();
-        $this->getFile = $file;
-        return true;
-      }
-    }
-    else
-    {
-      $oldImg = $this->product['product_image'];
+      case 'create':
 
-      if($file->getErrorString() == "No file was uploaded.")
-      {
-        $this->imgName = $oldImg;
-        return false;
-      }
-      else
-      {
-        $this->imgName = $file->getRandomName();
-        $this->getFile = $file;
-
-        if($oldImg != 'default.png')
+        if($file->getErrorString() == "No file was uploaded.")
         {
-          unlink('uploads/product/'. $oldImg);
+          $this->imgName = 'default.png';
+          return false;
         }
+        else
+        {
+          $this->imgName = $file->getRandomName();
+          $this->getFile = $file;
+          return true;
+        }
+        break;
 
-        return true;
-      }
+      case 'update':
+
+        $oldImg = $this->product['product_image'];
+
+        if($file->getErrorString() == "No file was uploaded.")
+        {
+          $this->imgName = $oldImg;
+          return false;
+        }
+        else
+        {
+          $this->imgName = $file->getRandomName();
+          $this->getFile = $file;
+
+          if($oldImg != 'default.png')
+          {
+            unlink('uploads/product/'. $oldImg);
+          }
+          return true;
+        }
+        break;
     }
   }
 

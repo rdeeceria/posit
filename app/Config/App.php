@@ -188,7 +188,7 @@ class App extends BaseConfig
 	//public $sessionSavePath          = WRITEPATH . 'session';
 	public $sessionSavePath 				 = 'ci_sessions';
 	public $sessionMatchIP           = false;
-	public $sessionTimeToUpdate      = 300;
+	public $sessionTimeToUpdate      = 0;
 	public $sessionRegenerateDestroy = false;
 
 	/*
