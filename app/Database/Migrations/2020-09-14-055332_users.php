@@ -10,11 +10,11 @@ class Users extends Migration
 			'id'				=> [
 				'type'						=> 'CHAR',
 				'constraint'			=> 13,
-				'null'        		=> FALSE,
+				'null'        		=> false,
 			],
 			'username'	=> [
 				'type'						=> 'VARCHAR',
-				'constraint'			=> 20,
+				'constraint'			=> 30,
 			],
 			'name'			=> [
 				'type'           	=> 'VARCHAR',
@@ -39,8 +39,7 @@ class Users extends Migration
 				'default' 			=> 'Admin'
 			],
 		]);
-		$this->forge->addKey('id');
-		$this->forge->addPrimaryKey('id');
+		$this->forge->addKey('id', true);
 		$this->forge->createTable('users');
 	}
 
@@ -48,6 +47,6 @@ class Users extends Migration
 
 	public function down()
 	{
-		//
+		$this->forge->dropTable('users', true);
 	}
 }

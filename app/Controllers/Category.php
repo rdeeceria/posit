@@ -4,17 +4,16 @@ class Category extends BaseController
 {
   function __construct()
   {
-    helper('form');
     view('partials/index', array('subtitle' => 'Categories'));
   }
 
   public function index()
   { 
     $data = [
-      'list' => BaseController::Categories()->getCategory(),
+      'list' => $this->M_Category->getCategory(),
       'create' => '/category/create',
       'update' => '/category/update/',
-      'delete' => '/DELETE/category/delete/',
+      'delete' => '/category/delete/',
     ];
     echo view('category/list', $data);
   }
@@ -32,16 +31,15 @@ class Category extends BaseController
     }
     else
     {
-      $rules = BaseController::Categories()->validationRules();
+      $rules = $this->M_Category->validationRules();
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
 
       $data = $this->request->getPost();
-      $post = BaseController::Categories()->postCategory($data);
-      
-      dd($post);
+      $post = $this->M_Category->postCategory($data);
+
       if($post) {
         $this->session->setFlashdata('success', 'Create Category Name '.$data['category_name'].' Successfully');
         return redirect()->route('category');
@@ -53,7 +51,7 @@ class Category extends BaseController
   {
     if($this->request->getMethod() === 'get') 
     {
-      $v = BaseController::Categories()->getCategory($id);
+      $v = $this->M_Category->getCategory($id);
       $data = [
         'action' => '/category/update/'.$id,
         'back' => '/category',
@@ -65,14 +63,14 @@ class Category extends BaseController
     }
     else
     {
-      $rules = BaseController::Categories()->validationRules($id);
+      $rules = $this->M_Category->validationRules($id);
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
   
       $data = $this->request->getPost();
-      $put = BaseController::Categories()->putCategory($id, $data);
+      $put = $this->M_Category->putCategory($id, $data);
   
       if($put) {
         $this->session->setFlashdata('info', 'Update Category Name '.$data['category_name'].' Successfully');
@@ -83,8 +81,8 @@ class Category extends BaseController
 
   public function delete($id)
   {
-    $data = BaseController::Categories()->getCategory($id);
-    $delete = BaseController::Categories()->deleteCategory($id);
+    $data = $this->M_Category->getCategory($id);
+    $delete = $this->M_Category->deleteCategory($id);
 
     if($delete) {
       $this->session->setFlashdata('warning', 'Delete Category Name '.$data['category_name'].' Successfully');

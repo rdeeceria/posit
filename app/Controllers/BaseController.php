@@ -26,7 +26,7 @@ class BaseController extends Controller
 	 *
 	 * @var array
 	 */
-	protected $helpers = [];
+	protected $helpers = ['form'];
 
 	/**
 	 * Constructor.
@@ -43,16 +43,10 @@ class BaseController extends Controller
 		$this->session = \Config\Services::session();
 		$this->validation = \Config\Services::validation();
 
-	}
+		$this->M_Category = model('App\Models\M_Category');
+		$this->M_Product = model('App\Models\M_Product');
+		$this->M_Transaction = model('App\Models\M_Transaction');
 
-	public static function Categories()
-	{
-		return model('App\Models\Category_model');
-	}
-
-	public static function Products()
-  {
-		return model('App\Models\Product_model');
 	}
 
 }

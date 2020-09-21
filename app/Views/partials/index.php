@@ -28,6 +28,5 @@
   </div>
   <?= $this->include('partials/footer') ?>
 </div>
-<?= $this->include('partials/script') ?>
 </body>
 </html>

@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
       <label for="">Status</label>
-      <select name="category_status" id="" class="form-control" required>
+      <select name="category_status" id="" class="custom-select" required>
         <option value="">Choose Category</option>
         <?php $status = old('category_status') == null ? esc($category_status) : old('category_status'); ?>
         <option <?= esc($status) == 'Active' ? 'selected' : ''; ?> value="Active">Active</option>

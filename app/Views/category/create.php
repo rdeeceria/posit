@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
       <label for="">Status</label>
-      <select name="category_status" class="form-control" required>
+      <select name="category_status" class="custom-select" required>
         <option value="">Choose Category</option>
         <option <?= old('category_status') == 'Active' ? 'selected' : ''; ?> value="Active">Active</option>
         <option <?= old('category_status') == 'Inactive' ? 'selected' : ''; ?> value="Inactive">Inactive</option>

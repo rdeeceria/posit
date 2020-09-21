@@ -2,64 +2,59 @@
 
 class Product extends BaseController
 {
-  protected $categories = [];
+  protected $product = [];
+  protected $getFile;
+  protected $imgName;
 
   public function __construct()
   {
-    helper('form');
-    $this->categories = array(
-      '' => 'Choose Category'
-      ) + array_column(BaseController::Categories()->getStatus(1), 'category_name', 'category_id');
+    view('partials/index', array('subtitle' => 'Products'));
   }
 
   public function index()
   { 
-    $view = array(
-      'content' => 'product/list',
-      'title' => 'Product',
-      'data' => [
-        'list' => BaseController::Products()->getProduct(),
-        'create' => '/product/create',
-        'update' => '/product/update/',
-        'delete' => '/product/delete/',
-        ],
-    );
-    echo view('index', $view);
+    $data = [
+      'list' => $this->M_Product->getProduct(),
+      'create' => '/product/create',
+      'read' => '/product/read',
+      'update' => '/product/update/',
+      'delete' => '/product/delete/',
+    ];
+    echo view('product/list', $data);
   }
 
   public function create()
   {
+    $segment = $this->request->uri->getSegments(1);
+
     if($this->request->getMethod() === 'get') 
     {
-      $view = array(
-        'content' => 'product/create',
-        'title' => 'Product',
-        'data' => [
-          'validation' => $this->validation,
-          'categories' => $this->categories,
-          'action' => '/product/create',
-          'back' => '/product',
-          ],
-      );
-      echo view('index', $view);
+      $categories = array('' => 'Choose Category') + array_column($this->M_Category->getStatus(1), 'category_name', 'category_id');
+    
+      $data = [
+        'validation' => $this->validation,
+        'categories' => $categories,
+        'action' => '/product/create',
+        'back' => '/product',
+      ];
+      echo view('product/create', $data);
     }
     else
     {
-      $rules = BaseController::Products()->validationRules();
-
-      
-      $image = $this->request->getFile('product_image');
-      $data = $this->request->getPost();
-      
-      //dd($data);
+      $file = $this->upload($segment);
+      $rules = $this->M_Product->validationRules();
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
 
+      if($file) {
+        $this->getFile->move('uploads/product', $this->imgName);
+      } 
 
-      $post = $this->productModel->postProduct($data);
-  
+      $data = $this->request->getPost() + array('product_image' => $this->imgName);
+      $post = $this->M_Product->postProduct($data);
+      
       if($post) {
         $this->session->setFlashdata('success', 'Create product Name '.$data['product_name'].' Successfully');
         return redirect()->route('product');
@@ -69,32 +64,38 @@ class Product extends BaseController
 
   public function update($id)
   {
+    $segment = $this->request->uri->getSegments(1);
+
+    $this->product = $this->M_Product->getProduct($id);
+
     if($this->request->getMethod() === 'get') 
     {
-      $v = $this->productModel->getProduct($id);
-      $view = array(
-        'content' => 'product/update',
-        'title' => 'Product',
-        'data' => [
-          'action' => '/product/update/'.$id,
-          'back' => '/product',
-          'validation' => $this->validation,
-          'product_name' => $v['product_name'],
-          'product_status' => $v['product_status'],
-          ],
-      );
-      echo view('index', $view);
+      $categories = array('' => 'Choose Category') + array_column($this->M_Category->getStatus(1), 'category_name', 'category_id');
+
+      $data = [
+        'action' => '/product/update/'.$id,
+        'back' => '/product',
+        'validation' => $this->validation,
+        'categories' => $categories,
+        'v' => $this->product,
+      ];
+      echo view('product/update', $data);
     }
     else
     {
-      $rules = $this->productModel->validationRules($id);
+      $file = $this->upload($segment);
+      $rules = $this->M_Product->validationRules($id);
 
       if(! $this->validate($rules)) {
         return redirect()->back()->withInput();
       }
+
+      if($file) {
+        $this->getFile->move('uploads/product', $this->imgName);
+      } 
   
-      $data = $this->request->getPost();
-      $put = $this->productModel->putProduct($id, $data);
+      $data = $this->request->getPost() + array('product_image' => $this->imgName);
+      $put = $this->M_Product->putProduct($id, $data);
   
       if($put) {
         $this->session->setFlashdata('info', 'Update product Name '.$data['product_name'].' Successfully');
@@ -105,12 +106,60 @@ class Product extends BaseController
 
   public function delete($id)
   {
-    $data = $this->productModel->getProduct($id);
-    $delete = $this->productModel->deleteProduct($id);
+    $data = $this->M_Product->getProduct($id);
+
+    if($data['product_image'] != 'default.png')
+    {
+      unlink('uploads/product/'. $data['product_image']);
+    }
+    $delete = $this->M_Product->deleteProduct($id);
     
     if($delete) {
       $this->session->setFlashdata('warning', 'Delete product Name '.$data['product_name'].' Successfully');
       return redirect()->route('product'); 
     }
   }
+
+  public function upload($segment)
+  {
+    $file = $this->request->getFile('product_image');
+
+    if($segment === 'create')
+    {
+      if($file->getErrorString() == "No file was uploaded.")
+      {
+        $this->imgName = 'default.png';
+        return false;
+      }
+      else
+      {
+        $this->imgName = $file->getRandomName();
+        $this->getFile = $file;
+        return true;
+      }
+    }
+    else
+    {
+      $oldImg = $this->product['product_image'];
+
+      if($file->getErrorString() == "No file was uploaded.")
+      {
+        $this->imgName = $oldImg;
+        return false;
+      }
+      else
+      {
+        $this->imgName = $file->getRandomName();
+        $this->getFile = $file;
+
+        if($oldImg != 'default.png')
+        {
+          unlink('uploads/product/'. $oldImg);
+        }
+
+        return true;
+      }
+    }
+  }
+
 }

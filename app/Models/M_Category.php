@@ -1,7 +1,8 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
-class Category_model extends Model
+
+class M_Category extends Model
 {
   protected $table = 'categories';
   protected $primaryKey = 'category_id';
@@ -12,7 +13,7 @@ class Category_model extends Model
     return [
       'category_name' => [
       'label' => 'Category Name',
-      'rules' => 'required|max_length[10]|is_unique[categories.category_name,category_id,'.$id.']',
+      'rules' => 'required|max_length[20]|is_unique[categories.category_name,category_id,'.$id.']',
       'errors' => [
         'is_unique' => 'Data {field} {value} Sudah Ada',
         'max_length' => '{field} Maximum {param} Character',

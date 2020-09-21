@@ -1,3 +1,5 @@
+<?= $this->extend('partials/index') ?>
+<?= $this->section('content') ?>
 <?php 
 if(! empty(session()->getFlashdata('success'))) {
   $toast = [
@@ -44,9 +46,6 @@ if(! empty(session()->getFlashdata('warning'))) {
   echo view('events/toasts', $toast);
 }
 ?>
-
-<div class="content">
-<div class="container-fluid">
 <div class="row">
 <div class="col-lg-12">
 
@@ -66,27 +65,40 @@ if(! empty(session()->getFlashdata('warning'))) {
       <thead>
         <tr>
           <th style="width: 10%">No</th>
-          <th style="width: 20%">Thumbnail</th>
-          <th>SKU</th>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Status</th>
-          <th style="width: 10%">Action</th>
+          <th style="width: 10%">PIC</th>
+          <th style="width: 20%">Product</th>
+          <th style="width: 10%">Category</th>
+          <th style="width: 20%">Price</th>
+          <th style="width: 10%">Status</th>
+          <th style="width: 20%">Action</th>
         </tr>
       </thead>
       <tbody>
-      <?php foreach($list as $k => $v): ?>
+      <?php if(empty($list)) : ?>
+      <tr><td colspan="8"><h3>Belum ada data</h3><p>Silahkan menambahkan data terlebih dahulu.</p></td></tr>      
+      <?php else : ?>
+      <?php foreach($list as $k => $v) : ?>
       <?= esc($v['product_status'] == 'Inactive') ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
         <td><?= esc(++$k); ?></td>
-        <td><img src="<?php echo base_url('uploads/'.$v['product_image']) ?>" class="rounded-circle" width="50" height="50"></td>
-        <td><?= esc($v['product_sku']) ?></td>
-        <td><?= esc($v['product_name']) ?></td>
-        <td><?= esc($v['category_name']) ?></td>
+        <?php 
+          $def = site_url('uploads/product/') . 'default.png';
+          $val = site_url('uploads/product/') . $v['product_image'];
+          $imgscr = $v['product_image'] == 'default.png' ? $def : $val; 
+        ?>
+        <td><img src="<?= esc($imgscr) ?>" class="rounded" width="50" height="50"></td>
+        <td>
+          <h6><?= esc($v['product_sku']) ?></h6>
+          <small><?= esc($v['product_name']) ?></small>
+        </td>
+        <td class="">
+          <?php $sts = $v['category_status'] == 'Inactive' ? 'badge badge-danger' : 'badge badge-primary' ; ?>
+          <span class="<?= esc($sts) ?>"><?= esc($v['category_name']) ?></span>
+        </td>
         <td><?= esc($v['product_price']) ?></td>
         <td><?= esc($v['product_status']) ?></td>
         <td>
         <div class="btn-group">
-          <button type="button" class="btn btn-primary btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($update . $v['product_id']) ?>'">
+          <button type="button" class="btn btn-primary btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($read . $v['product_id']) ?>'">
           <i class="fa fa-eye"></i> View</button>
           <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($update . $v['product_id']) ?>'">
           <i class="fa fa-edit"></i> Edit</button>
@@ -106,7 +118,8 @@ if(! empty(session()->getFlashdata('warning'))) {
         ?>
         </td>
       </tr>
-      <?php endforeach; ?>
+      <?php endforeach ?>
+      <?php endif ?>
       </tbody>
       </table>
     </div>
@@ -115,6 +128,4 @@ if(! empty(session()->getFlashdata('warning'))) {
 
 </div>
 </div>
-</div>
-</div>
-</div>
+<?= $this->endSection() ?>

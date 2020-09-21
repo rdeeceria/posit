@@ -10,11 +10,11 @@ class Categories extends Migration
 			'category_id'			=> [
 				'type'           	=> 'CHAR',
 				'constraint'     	=> 13,
-				'null'        		=> FALSE,
+				'null'        		=> false,
 			],
 			'category_name'		=> [
 				'type'						=> 'VARCHAR',
-				'constraint'			=> 20,
+				'constraint'			=> 30,
 			],
 			'category_status'	=> [
 				'type'						=> 'ENUM',
@@ -22,8 +22,7 @@ class Categories extends Migration
 				'default' 				=> 'Active'
 			],
 		]);
-		$this->forge->addKey('category_id');
-		$this->forge->addPrimaryKey('category_id');
+		$this->forge->addKey('category_id', true);
 		$this->forge->createTable('categories');
 	}
 
@@ -31,6 +30,6 @@ class Categories extends Migration
 
 	public function down()
 	{
-		//
+		$this->forge->dropTable('categories', true);
 	}
 }

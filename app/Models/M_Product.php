@@ -2,7 +2,7 @@
 
 use CodeIgniter\Model;
   
-class Product_model extends Model
+class M_Product extends Model
 {
   protected $table = 'products';
   protected $primaryKey = 'product_id';
@@ -10,8 +10,6 @@ class Product_model extends Model
     'product_id','category_id','product_name','product_price','product_sku',
     'product_status','product_image','product_description',
   ];
-
-  protected $image = "default.jpg";
 
   public function validationRules($id = null)
   {
@@ -26,15 +24,16 @@ class Product_model extends Model
       ],
       'product_price' => [
         'label' => 'Product Price',
-        'rules' => 'required|numeric|max_length[10]',
+        'rules' => 'required|is_natural|numeric|less_than_equal_to[4000000000]',
         'errors' => [
             'numeric' => '{field} Harus Numeric',
-            'max_length' => '{field} Maximum {param} Character',
+            'is_natural' => '{field} Tidak Bisa Bernilai Negatif',
+            'less_than_equal_to' => '{field} Maksimal 4 Milyar',
           ]
       ],
       'product_sku' => [
         'label' => 'Product SKU',
-        'rules' => 'required|max_length[10]|is_unique[products.product_name,product_id,'.$id.']',
+        'rules' => 'required|max_length[15]|is_unique[products.product_name,product_id,'.$id.']',
         'errors' => [
             'is_unique' => 'Nomor {field} {value} Sudah Ada',
             'max_length' => '{field} Maximum {param} Character',
@@ -42,10 +41,10 @@ class Product_model extends Model
       ],
       'product_image' => [
         'label' => 'Product Image',
-        'rules' => 'mime_in[product_image,image/jpg,image/jpeg,image/png,image/gif]|max_size[product_image,1000]',
+        'rules' => 'is_image[product_image]|mime_in[product_image,image/jpeg,image/jpg,image/bmp,image/png,image/gif]|max_size[product_image,1024]',
         'errors' => [
-            'mime_in' => '{field} Dierekomendasikan File Berekstensi .jpg, .jpeg, .png, .gif',
-            'max_size' => '{field} Maksimal {param} MB',
+            'mime_in' => '{field} Dierekomendasikan File Berekstensi .jpg, .bmp, .png, .gif',
+            'max_size' => '{field} Maksimal {param}',
           ]
       ],
     ];
@@ -64,7 +63,8 @@ class Product_model extends Model
 
   public function postProduct($data) 
   {
-    return $this->insert($data);
+    $this->insert(array('product_id' => uniqid()) + $data);
+    return true;
   }
 
   public function putProduct($id, $data)

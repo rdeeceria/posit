@@ -1,3 +1,5 @@
+<?= $this->extend('partials/index') ?>
+<?= $this->section('content') ?>
 <?php 
 if(! empty(session()->getFlashdata('success'))) {
   $toast = [
@@ -44,8 +46,6 @@ if(! empty(session()->getFlashdata('warning'))) {
   echo view('events/toasts', $toast);
 }
 ?>
-<?= $this->extend('partials/index') ?>
-<?= $this->section('content') ?>
 <div class="row">
 <div class="col-lg-12">
 
@@ -71,7 +71,10 @@ if(! empty(session()->getFlashdata('warning'))) {
         </tr>
       </thead>
       <tbody>
-      <?php foreach($list as $k => $v): ?>
+      <?php if(empty($list)) : ?>
+      <tr><td colspan="4"><h3>Belum ada data</h3><p>Silahkan menambahkan data terlebih dahulu.</p></td></tr>      
+      <?php else : ?>
+      <?php foreach($list as $k => $v) : ?>
       <?= esc($v['category_status']) == 'Inactive' ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
         <td><?= esc(++$k) ?></td>
         <td><?= esc($v['category_name']) ?></td>
@@ -96,7 +99,8 @@ if(! empty(session()->getFlashdata('warning'))) {
         ?>
         </td>
       </tr>
-      <?php endforeach; ?>
+      <?php endforeach ?>
+      <?php endif ?>
       </tbody>
       </table>
     </div>

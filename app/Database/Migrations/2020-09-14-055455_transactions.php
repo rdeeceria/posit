@@ -11,24 +11,23 @@ class Transactions extends Migration
 			'trx_id'				=> [
 				'type'           	=> 'CHAR',
 				'constraint'     	=> 13,
-				'null'        		=> FALSE,
+				'null'        		=> false,
 			],
 			'product_id'		=> [
 				'type'           	=> 'CHAR',
 				'constraint'     	=> 13,
-				'null'						=> FALSE,
+				'null'						=> false,
 			],
 			'trx_price'			=> [
 				'type'           	=> 'INT',
-				'constraint'     	=> 13,
+				'constraint'     	=> 10,
 			],
 			'trx_date'      => [
 				'type'           	=> 'DATE',
 			],
 		]);
-		$this->forge->addKey('trx_id');
+		$this->forge->addKey('trx_id', true);
 		$this->forge->addKey('trx_date');
-		$this->forge->addPrimaryKey('trx_id');
 		$this->forge->addForeignKey('product_id','products','product_id','CASCADE','CASCADE');
 		$this->forge->createTable('transactions');
 	}
@@ -37,6 +36,6 @@ class Transactions extends Migration
 
 	public function down()
 	{
-		//
+		$this->forge->dropTable('transactions', true);
 	}
 }

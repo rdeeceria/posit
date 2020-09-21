@@ -11,12 +11,12 @@ class Products extends Migration
 			'product_id'				=> [
 				'type'           		=> 'CHAR',
 				'constraint'     		=> 13,
-				'null'        			=> FALSE,
+				'null'        			=> false,
 			],
 			'category_id'				=> [
 				'type'        	   	=> 'CHAR',
 				'constraint'  	   	=> 13,
-				'null'							=> TRUE,
+				'null'							=> false,
 			],
 			'product_name'			=> [
 				'type'          	 	=> 'VARCHAR',
@@ -24,11 +24,13 @@ class Products extends Migration
 			],
 			'product_price'			=> [
 				'type'          	 	=> 'INT',
-				'constraint'   	  	=> 13,
+				'constraint'   	  	=> 10,
+				'unsigned'   	  		=> true,
+				'default'   	  		=> 0,
 			],
 			'product_sku'				=> [
 				'type'         	  	=> 'VARCHAR',
-				'constraint'   	  	=> 13,
+				'constraint'   	  	=> 15,
 			],
 			'product_status'		=> [
 				'type'          	 	=> 'ENUM',
@@ -37,16 +39,14 @@ class Products extends Migration
 			],
 			'product_image'			=> [
 				'type'           		=> 'VARCHAR',
-				'constraint'     		=> 100,
-				'null'           		=> TRUE,
+				'constraint'     		=> 40,
 			],
 			'product_description'	=> [
 				'type'           		=> 'TEXT',
-				'null'           		=> TRUE,
+				'null'           		=> true,
 			],
 		]);
-		$this->forge->addKey('product_id');
-		$this->forge->addPrimaryKey('product_id');
+		$this->forge->addKey('product_id', true);
 		$this->forge->addForeignKey('category_id','categories','category_id','CASCADE','CASCADE');
 		$this->forge->createTable('products');
 	}
@@ -55,6 +55,6 @@ class Products extends Migration
 
 	public function down()
 	{
-		//
+		$this->forge->dropTable('products', true);
 	}
 }
