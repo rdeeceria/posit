@@ -3,14 +3,18 @@
 <div class="row">
 <div class="col-lg-12">
 
+<div class="card bg-gradient-primary">
+  
+</div>
+
 <div class="card">
   <div class="card-header">
     <h5 class="card-title"><i class="fas fa-tags"></i> List Transaction</h5>
     <div class="card-tools">
-      <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='<?= esc($import); ?>'"><i class="fas fa-file-alt"></i> Tambah
+      <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='<?= esc($create) ?>'"><i class="fas fa-file-alt"></i> Tambah
       </button>
-      <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='<?= esc($import); ?>'"><i class="fas fa-download"></i></button>
-      <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='<?= esc($export); ?>'"><i class="fas fa-upload"></i></button>
+      <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='<?= esc($export) ?>'"><i class="fas fa-download"></i></button>
+      <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='<?= esc($import) ?>'"><i class="fas fa-upload"></i></button>
       <button type="button" class="btn btn-default btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i>
       </button>
     </div>
@@ -82,7 +86,7 @@ if(! empty(session()->getFlashdata('warning'))) {
   'image' => '',
   'imageAlt' => '',
   ];
-  echo view('events/toasts', $toast);
+  return view('events/toasts', $toast);
 }
 ?>
 <?= $this->endSection() ?>

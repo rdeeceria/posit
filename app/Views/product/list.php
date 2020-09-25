@@ -131,6 +131,10 @@ if(! empty(session()->getFlashdata('warning'))) {
   echo view('events/toasts', $toast);
 }
 ?>
+<?= $this->endSection() ?>
+
+<?= $this->extend('partials/index') ?>
+<?= $this->section('script') ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 

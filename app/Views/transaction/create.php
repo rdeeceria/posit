@@ -5,7 +5,7 @@
 
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title">Create Category</h5>
+    <h5 class="card-title">Create Transaction</h5>
   </div>
   <div class="card-body">
   <?php echo form_open($action) ?>
