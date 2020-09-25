@@ -23,12 +23,19 @@ class Transaction extends BaseController
 
   public function import()
   { 
-    $data = [
-      'validation' => $this->validation,
-      'action' => '/transaction/upload',
-      'back' => '/transaction',
-    ];
-    echo view('transaction/import', $data);
+    if($this->request->getMethod() === 'get') 
+    {
+      $data = [
+        'validation' => $this->validation,
+        'action' => '/transaction/upload',
+        'back' => '/transaction',
+      ];
+      echo view('transaction/import', $data);
+    }
+    else
+    {
+      
+    }
   }
 
 }
