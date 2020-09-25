@@ -54,8 +54,8 @@ class M_Product extends Model
   {
     if(empty($id)) {
       return $this->join('categories', 'categories.category_id = products.category_id')
-                  ->where($where)->like($like)->orLike($orLike)
-                  ->orderBy('Product_id DESC')->paginate($paginate, 'product');
+      ->where($where)->like($like)->orLike($orLike)
+      ->orderBy('Product_id DESC')->paginate($paginate, 'product');
     }
     else
     {
@@ -83,4 +83,10 @@ class M_Product extends Model
   {
     return $this->where('products_status', $status)->findAll();
   }
+
+  public function getPrice($id)
+  {
+    return $this->where('product_id', $id)->first();
+  }
+
 }
