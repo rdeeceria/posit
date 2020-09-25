@@ -1,51 +1,5 @@
 <?= $this->extend('partials/index') ?>
 <?= $this->section('content') ?>
-<?php 
-if(! empty(session()->getFlashdata('success'))) {
-  $toast = [
-  'class' => 'bg-success',
-  'autohide' => 'true',
-  'delay' => '5000',
-  'title' => 'Create Category',
-  'subtitle' => '',
-  'body' => session()->getFlashdata('success'),
-  'icon' => 'icon fas fa-file-alt',
-  'image' => '',
-  'imageAlt' => '',
-  ];
-  echo view('events/toasts', $toast);
-}
-
-if(! empty(session()->getFlashdata('info'))) {
-  $toast = [
-  'class' => 'bg-info',
-  'autohide' => 'true',
-  'delay' => '5000',
-  'title' => 'Update Category',
-  'subtitle' => '',
-  'body' => session()->getFlashdata('info'),
-  'icon' => 'icon fas fa-edit',
-  'image' => '',
-  'imageAlt' => '',
-  ];
-  echo view('events/toasts', $toast);
-}
-
-if(! empty(session()->getFlashdata('warning'))) {
-  $toast = [
-  'class' => 'bg-warning',
-  'autohide' => 'true',
-  'delay' => '10000',
-  'title' => 'Delete Category',
-  'subtitle' => '',
-  'body' => session()->getFlashdata('warning'),
-  'icon' => 'icon fas fa-trash-alt',
-  'image' => '',
-  'imageAlt' => '',
-  ];
-  echo view('events/toasts', $toast);
-}
-?>
 <div class="row">
 <div class="col-lg-12">
 
@@ -65,7 +19,8 @@ if(! empty(session()->getFlashdata('warning'))) {
       <thead>
         <tr>
           <th style="width: 10%">No</th>
-          <th style="width: 50%">Name</th>
+          <th style="width: 30%">Name</th>
+          <th style="width: 20%">Product</th>
           <th style="width: 20%">Status</th>
           <th style="width: 20%">Action</th>
         </tr>
@@ -77,7 +32,8 @@ if(! empty(session()->getFlashdata('warning'))) {
       <?php foreach($list as $k => $v) : ?>
       <?= esc($v['category_status']) == 'Inactive' ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
         <td><?= esc(++$k) ?></td>
-        <td><?= esc($v['category_name']) ?></td>
+        <td><h6><?= esc($v['category_name']) ?></h6></td>
+        <td><?= esc($v['product_count']) ?></td>
         <td><?= esc($v['category_status']) ?></td>
         <td>
         <div class="btn-group">
@@ -109,4 +65,20 @@ if(! empty(session()->getFlashdata('warning'))) {
 
 </div>
 </div>
+<?php 
+if(! empty(session()->getFlashdata('warning'))) {
+  $toast = [
+  'class' => 'bg-warning',
+  'autohide' => 'true',
+  'delay' => '10000',
+  'title' => 'Delete Category',
+  'subtitle' => '',
+  'body' => session()->getFlashdata('warning'),
+  'icon' => 'icon fas fa-trash-alt',
+  'image' => '',
+  'imageAlt' => '',
+  ];
+  echo view('events/toasts', $toast);
+}
+?>
 <?= $this->endSection() ?>

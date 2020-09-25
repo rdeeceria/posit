@@ -46,16 +46,21 @@ $routes->match(['get', 'post'], 'product/update/(:any)', 'Product::update/$1');
 $routes->get('product/delete/(:any)', 'Product::delete/$1');
 $routes->addRedirect('product/update', 'product');
 
-$routes->get('/sse', 'Sse::index');
-$routes->get('/stream', 'Sse::stream');
+$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
+	$routes->group('categories', function($routes) {
+			$routes->get('', 'categories::index');
+			$routes->get('(:any)', 'categories::show/$1');
+			$routes->post('create', 'categories::create');
+			$routes->put('(:any)', 'categories::update/$1');
+			$routes->delete('(:any)', 'categories::delete/$1');
+	});
 
-$routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes)
-{
-	$routes->group('profil', function($routes)
-	{
-		$routes->add('users', 'Profil::index');
-		$routes->get('users/(:num)', 'Profil::show/$1');
-		$routes->put('users/(:num)', 'Profil::update/$1');
+	$routes->group('products', function($routes) {
+		$routes->get('', 'products::index');
+		$routes->get('(:any)', 'products::show/$1');
+		$routes->post('create', 'products::create');
+		$routes->put('(:any)', 'products::update/$1');
+		$routes->delete('(:any)', 'products::delete/$1');
 	});
 });
 

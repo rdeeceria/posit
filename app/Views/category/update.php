@@ -46,4 +46,20 @@
 
 </div>
 </div>
+<?php
+if(! empty(session()->getFlashdata('info'))) {
+  $toast = [
+  'class' => 'bg-info',
+  'autohide' => 'true',
+  'delay' => '5000',
+  'title' => 'Update Category',
+  'subtitle' => '',
+  'body' => session()->getFlashdata('info'),
+  'icon' => 'icon fas fa-edit',
+  'image' => '',
+  'imageAlt' => '',
+  ];
+  echo view('events/toasts', $toast);
+}
+?>
 <?= $this->endSection() ?>

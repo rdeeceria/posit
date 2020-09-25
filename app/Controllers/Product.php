@@ -13,10 +13,35 @@ class Product extends BaseController
 
   public function index()
   { 
-    $data = [
-      'list' => $this->M_Product->getProduct(),
+    $pager = \Config\Services::pager();
+    
+    $where = [];
+    $like = [];
+    $orLike = [];
+
+    $categories = array('' => 'Choose Category') + array_column($this->M_Category->getStatus(1), 'category_name', 'category_id');
+    $data['categories'] = $categories;
+
+    $category = $this->request->getGet('category');
+    $keyword = $this->request->getGet('keyword');
+
+    $data['category'] = $category;
+    $data['keyword'] = $keyword;
+
+    if(!empty($category)) {
+      $where = ['products.category_id' => $category];
+    }
+
+    if(!empty($keyword)) {
+        $like = ['products.product_name' => $keyword];
+        $orLike = ['products.product_sku' => $keyword, 'products.product_description' => $keyword];
+    }
+
+    $data += [
+      'list' => $this->M_Product->getProduct($where, $like, $orLike),
+      'pager' => $this->M_Product->pager,
       'create' => '/product/create',
-      'read' => '/product/read',
+      'read' => '/product/read/',
       'update' => '/product/update/',
       'delete' => '/product/delete/',
     ];
@@ -55,9 +80,17 @@ class Product extends BaseController
       
       if($post) {
         $this->session->setFlashdata('success', 'Create product Name '.$data['product_name'].' Successfully');
-        return redirect()->route('product');
+        return redirect()->back();
       }
     }
+  }
+  
+  public function read($id)
+  {
+    $data = [
+      'v' => $this->M_Product->getProduct($id),
+    ];
+    echo view('product/read', $data);
   }
 
   public function update($id)
@@ -94,7 +127,7 @@ class Product extends BaseController
   
       if($put) {
         $this->session->setFlashdata('info', 'Update product Name '.$data['product_name'].' Successfully');
-        return redirect()->route('product');
+        return redirect()->back()->withInput();
       }
     }
   }

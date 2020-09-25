@@ -43,7 +43,7 @@ class Category extends BaseController
 
       if($post) {
         $this->session->setFlashdata('success', 'Create Category Name '.$data['category_name'].' Successfully');
-        return redirect()->route('category');
+        return redirect()->back();
       }
     }
   }
@@ -74,7 +74,7 @@ class Category extends BaseController
   
       if($put) {
         $this->session->setFlashdata('info', 'Update Category Name '.$data['category_name'].' Successfully');
-        return redirect()->route('category');
+        return redirect()->back()->withInput();
       }
     }
   }

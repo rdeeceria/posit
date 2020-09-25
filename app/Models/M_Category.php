@@ -25,7 +25,16 @@ class M_Category extends Model
   public function getCategory($id = null)
   {
     if(empty($id)) {
-      return $this->orderBy('category_id DESC')->findAll();
+      $query = $this->query("SELECT 
+        categories.category_id,
+        categories.category_name,
+        categories.category_status,
+        COUNT(DISTINCT products.product_id) as product_count
+        FROM categories LEFT JOIN products ON categories.category_id = products.category_id
+        GROUP BY categories.category_id
+        ORDER BY categories.category_id DESC");
+
+      return $query->getResultArray();
     }
     else
     {

@@ -104,20 +104,18 @@
                 <?= $validation->getError('product_image'); ?>
                 </div>
               </div>
-            
-            
-
+          
             </div>
             <div class="form-group">
               <div>
-                <img src="/uploads/default.png" alt="Thumbnail" class="img-thumbnail">
+                <img src="/uploads/product/default.png" alt="Thumbnail" class="img-fluid">
               </div>
             </div>
           </div>
         </div>
 
         <div class="row">
-          <div class="col-lg-12">
+          <div class="col-md-12">
             <div class="form-group">
               <label for="">Description</label>
               <?php
@@ -151,7 +149,7 @@ function thumbnail() {
 
   const image = document.querySelector('#product_image');
   const imageLabel = document.querySelector('.custom-file-label');
-  const imageThumbnail = document.querySelector('.img-thumbnail');
+  const imageThumbnail = document.querySelector('.img-fluid');
 
   imageLabel.textContent = image.files[0].name;
 
@@ -163,4 +161,20 @@ function thumbnail() {
   }
 }
 </script>
+<?php
+if(! empty(session()->getFlashdata('success'))) {
+  $toast = [
+  'class' => 'bg-success',
+  'autohide' => 'true',
+  'delay' => '5000',
+  'title' => 'Create Product',
+  'subtitle' => '',
+  'body' => session()->getFlashdata('success'),
+  'icon' => 'icon fas fa-file-alt',
+  'image' => '',
+  'imageAlt' => '',
+  ];
+  echo view('events/toasts', $toast);
+}
+?>
 <?= $this->endSection() ?>

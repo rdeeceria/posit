@@ -1,53 +1,34 @@
 <?= $this->extend('partials/index') ?>
 <?= $this->section('content') ?>
-<?php 
-if(! empty(session()->getFlashdata('success'))) {
-  $toast = [
-  'class' => 'bg-success',
-  'autohide' => 'true',
-  'delay' => '5000',
-  'title' => 'Create Product',
-  'subtitle' => '',
-  'body' => session()->getFlashdata('success'),
-  'icon' => 'icon fas fa-file-alt',
-  'image' => '',
-  'imageAlt' => '',
-  ];
-  echo view('events/toasts', $toast);
-}
-
-if(! empty(session()->getFlashdata('info'))) {
-  $toast = [
-  'class' => 'bg-info',
-  'autohide' => 'true',
-  'delay' => '5000',
-  'title' => 'Update Product',
-  'subtitle' => '',
-  'body' => session()->getFlashdata('info'),
-  'icon' => 'icon fas fa-edit',
-  'image' => '',
-  'imageAlt' => '',
-  ];
-  echo view('events/toasts', $toast);
-}
-
-if(! empty(session()->getFlashdata('warning'))) {
-  $toast = [
-  'class' => 'bg-warning',
-  'autohide' => 'true',
-  'delay' => '10000',
-  'title' => 'Delete Product',
-  'subtitle' => '',
-  'body' => session()->getFlashdata('warning'),
-  'icon' => 'icon fas fa-trash-alt',
-  'image' => '',
-  'imageAlt' => '',
-  ];
-  echo view('events/toasts', $toast);
-}
-?>
 <div class="row">
 <div class="col-lg-12">
+
+<div class="card bg-gradient-primary collapsed-card">
+  <div class="card-header">
+    <h5 class="card-title"><i class="fas fa-search"></i> Filter Product</h5>
+    <div class="card-tools" style="width: 50%">
+      <div class="input-group input-group-sm">
+        <?php echo form_dropdown('category', $categories, $category, ['class' => 'custom-select', 'id' => 'category']) ?>
+        <?php
+        $form_keyword = [
+            'type'  => 'text',
+            'class' => 'form-control',
+            'name'  => 'keyword',
+            'id'    => 'keyword',
+            'value' => $keyword,
+            'placeholder' => 'Enter keyword ...'
+        ];
+        echo form_input($form_keyword);
+        ?>
+        <div class="input-group-append">
+          <button class="btn btn btn-secondary" id="filterSubmit">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="card">
   <div class="card-header">
@@ -59,6 +40,7 @@ if(! empty(session()->getFlashdata('warning'))) {
       </button>
     </div>
   </div>
+
   <div class="card-body p-0">
     <div class="table-responsive">
       <table class="table projects">
@@ -80,11 +62,11 @@ if(! empty(session()->getFlashdata('warning'))) {
       <?php foreach($list as $k => $v) : ?>
       <?= esc($v['product_status'] == 'Inactive') ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
         <td><?= esc(++$k); ?></td>
-        <?php 
-          $def = site_url('uploads/product/') . 'default.png';
-          $val = site_url('uploads/product/') . $v['product_image'];
-          $imgscr = $v['product_image'] == 'default.png' ? $def : $val; 
-        ?>
+          <?php 
+            $def = site_url('uploads/product/') . 'default.png';
+            $val = site_url('uploads/product/') . $v['product_image'];
+            $imgscr = $v['product_image'] == 'default.png' ? $def : $val; 
+          ?>
         <td><img src="<?= esc($imgscr) ?>" class="rounded" width="50" height="50"></td>
         <td>
           <h6><?= esc($v['product_sku']) ?></h6>
@@ -124,8 +106,54 @@ if(! empty(session()->getFlashdata('warning'))) {
       </table>
     </div>
   </div>
+  <div class="card-footer clearfix">
+    <div class="pagination pagination-md m-0 float-right">
+      <?= $pager->links('product', 'bootstrap-pager') ?>
+    </div>
+  </div>
 </div>
 
 </div>
 </div>
+<?php 
+if(! empty(session()->getFlashdata('warning'))) {
+  $toast = [
+  'class' => 'bg-warning',
+  'autohide' => 'true',
+  'delay' => '10000',
+  'title' => 'Delete Product',
+  'subtitle' => '',
+  'body' => session()->getFlashdata('warning'),
+  'icon' => 'icon fas fa-trash-alt',
+  'image' => '',
+  'imageAlt' => '',
+  ];
+  echo view('events/toasts', $toast);
+}
+?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  let filter = function() {
+    var category = $("#category").val();
+    var keyword = $("#keyword").val();
+    window.location.replace("/product?category="+ category +"&keyword="+ keyword);
+  }
+
+  $("#filterSubmit").click(function() {
+    filter();
+  });
+
+  $("#category").change(function() {
+    filter();
+  });
+
+  $("#keyword").keypress(function(event) {
+    if(event.keyCode == 13) { // 13 adalah kode enter
+      filter();
+    }
+  });
+
+});
+</script>
 <?= $this->endSection() ?>

@@ -50,10 +50,12 @@ class M_Product extends Model
     ];
   }
 
-  public function getProduct($id = null)
+  public function getProduct($where = null, $like = null, $orLike = null, $paginate = 5, $id = null)
   {
     if(empty($id)) {
-      return $this->join('categories', 'categories.category_id = products.category_id')->orderBy('Product_id DESC')->findAll();
+      return $this->join('categories', 'categories.category_id = products.category_id')
+                  ->where($where)->like($like)->orLike($orLike)
+                  ->orderBy('Product_id DESC')->paginate($paginate, 'product');
     }
     else
     {
