@@ -5,6 +5,7 @@ class Admin extends \CodeIgniter\Database\Seeder
     public function run()
     {
         $data = [
+            'id'        => uniqid(),
             'username'  => 'admin',
             'name'      => 'Admin',
             'email'     => 'admin@example.com',

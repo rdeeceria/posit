@@ -43,10 +43,21 @@ class BaseController extends Controller
 		$this->session = \Config\Services::session();
 		$this->validation = \Config\Services::validation();
 
+		$this->M_Auth = model('App\Models\M_Auth');
+		$this->M_Dashboard = model('App\Models\M_Dashboard');
 		$this->M_Category = model('App\Models\M_Category');
 		$this->M_Product = model('App\Models\M_Product');
 		$this->M_Transaction = model('App\Models\M_Transaction');
 
+	}
+
+	public function cek_login()
+	{
+    $result = true;
+    if(session()->get('level') != "Admin" && session()->get('status') != "Active") {
+			$result = false;
+    }
+    return $result;
 	}
 
 }
