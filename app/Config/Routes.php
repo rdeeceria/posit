@@ -50,8 +50,7 @@ $routes->get('transaction', 'Transaction::index');
 $routes->match(['get', 'post'], 'transaction/create', 'Transaction::create');
 $routes->match(['get', 'post'], 'transaction/update/(:any)', 'Transaction::update/$1');
 $routes->get('transaction/delete/(:any)', 'Transaction::delete/$1');
-$routes->match(['get', 'post'], 'transaction/import', 'Transaction::import');
-$routes->addRedirect('transaction/update', 'Transaction');
+$routes->addRedirect('transaction/update', 'transaction');
 
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
 	$routes->group('categories', function($routes) {

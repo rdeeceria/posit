@@ -13,8 +13,8 @@
     <div class="card-tools">
       <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='<?= esc($create) ?>'"><i class="fas fa-file-alt"></i> Tambah
       </button>
-      <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='<?= esc($export) ?>'"><i class="fas fa-download"></i></button>
-      <button type="button" class="btn btn-default btn-sm" onclick="window.location.href='<?= esc($import) ?>'"><i class="fas fa-upload"></i></button>
+      <button type="button" title="Upload" class="btn btn-default btn-sm" onclick="window.location.href='<?= esc($import) ?>'"><i class="fas fa-upload"></i></button>
+      <button type="button" title="Download" class="btn btn-default btn-sm" onclick="window.location.href='<?= esc($export) ?>'"><i class="fas fa-download"></i></button>
       <button type="button" class="btn btn-default btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i>
       </button>
     </div>
@@ -25,11 +25,11 @@
       <thead>
         <tr>
           <th style="width: 10%">No</th>
-          <th style="width: 30%">Name</th>
-          <th style="width: 30%">QTY</th>
-          <th style="width: 20%">Date</th>
+          <th style="width: 20%">Name</th>
+          <th style="width: 10%">QTY</th>
+          <th style="width: 10%">Date</th>
           <th style="width: 20%">Price</th>
-          <th style="width: 20%">Action</th>
+          <th style="width: 10%">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -42,7 +42,7 @@
         <td><h6><?= esc($v['product_name']) ?></h6></td>
         <td><h6><?= esc($v['trx_qty']) ?></h6></td>
         <td><?php echo date('d-m-Y', strtotime($v['trx_date'])) ?></td>
-        <td><?php echo "Rp. ".number_format($row['trx_price']) ?></td>
+        <td><?php echo "Rp. ".number_format($v['trx_price']) ?></td>
         <td>
         <div class="btn-group">
           <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($update . $v['trx_id']) ?>'">
@@ -55,8 +55,8 @@
             'id' => 'modal_'.esc($k),
             'size' => 'modal-sm',
             'class' => 'bg-warning',
-            'title' => 'Delete Category',
-            'bodytext' => 'Anda Yakin Ingin Menghapus Kategori '.$v['trx_name'],
+            'title' => 'Delete Transaction',
+            'bodytext' => 'Anda Yakin Ingin Menghapus Transaction '.$v['product_name'],
             'action' => esc($delete . $v['trx_id']),
             ];
           echo view('events/modals', $modals);
@@ -73,20 +73,35 @@
 
 </div>
 </div>
-<?php 
+<?php
+if(! empty(session()->getFlashdata('success'))) {
+  $toast = [
+  'class' => 'bg-success',
+  'autohide' => 'true',
+  'delay' => '5000',
+  'title' => 'Import Transaction',
+  'subtitle' => '',
+  'body' => session()->getFlashdata('success'),
+  'icon' => 'icon fas fa-file-alt',
+  'image' => '',
+  'imageAlt' => '',
+  ];
+  echo view('events/toasts', $toast);
+}
+
 if(! empty(session()->getFlashdata('warning'))) {
   $toast = [
   'class' => 'bg-warning',
   'autohide' => 'true',
   'delay' => '10000',
-  'title' => 'Delete Category',
+  'title' => 'Delete Transaction',
   'subtitle' => '',
   'body' => session()->getFlashdata('warning'),
   'icon' => 'icon fas fa-trash-alt',
   'image' => '',
   'imageAlt' => '',
   ];
-  return view('events/toasts', $toast);
+  echo view('events/toasts', $toast);
 }
 ?>
 <?= $this->endSection() ?>

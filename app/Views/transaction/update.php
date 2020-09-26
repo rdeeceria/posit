@@ -5,40 +5,43 @@
 
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title">Create Category</h5>
+    <h5 class="card-title">Create Transaction</h5>
   </div>
   <div class="card-body">
-  <?php echo form_open($action) ?>
+    <?php echo form_open($action) ?>
     <div class="form-group">
-      <label for="">Name</label>
+      <label for="">Product</label>
       <?php
-      $name = [
-        'type' => 'text',
-        'class' => $validation->hasError('category_name') ? 'form-control is-invalid' : 'form-control',
-        'name' => 'category_name',
-        'placeholder' => 'Enter category name',
-        'minlength' => '3',
-        'value' => old('category_name') == null ? $category_name : old('category_name'),
-        'required' => 'required',
+      $selected = old('product_id') == null ? esc($v['product_id']) : old('product_id');
+      $param =[
+        'class' => 'custom-select',
+        'required' => '',
       ];
-      echo form_input($name)
+      echo form_dropdown('product_id', $products, $selected, $param);
       ?>
-      <div class="invalid-feedback">
-      <?= $validation->getError('category_name'); ?>
-      </div>
     </div>
     <div class="form-group">
-      <label for="">Status</label>
-      <select name="category_status" id="" class="custom-select" required>
-        <option value="">Choose Category</option>
-        <?php $status = old('category_status') == null ? esc($category_status) : old('category_status'); ?>
-        <option <?= esc($status) == 'Active' ? 'selected' : ''; ?> value="Active">Active</option>
-        <option <?= esc($status) == 'Inactive' ? 'selected' : ''; ?> value="Inactive">Inactive</option>
-      </select>
-    </div>  
-  </div>  
+      <label for="">QTY</label>
+      <?php
+      $qty = [
+        'type' => 'number',
+        'class' => $validation->hasError('trx_qty') ? 'form-control is-invalid' : 'form-control',
+        'name' => 'trx_qty',
+        'minlength' => '1',
+        'placeholder' => 'Enter Quantity',
+        'value' => old('trx_qty') == null ? esc($v['trx_qty']) : old('trx_qty'),
+        'required' => ''
+      ];
+      echo form_input($qty);
+      ?>
+      <div class="invalid-feedback">
+      <?= $validation->getError('trx_qty'); ?>
+      </div>
+    </div>
+    <input type="hidden" name="trx_date" value="<?php echo date('Y-m-d', time()) ?>">
+  </div> 
   <div class="card-footer">
-    <button type="button" class="btn btn-secondary" onclick="window.location.href='<?=esc($back); ?>'">Back</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='<?= esc($back) ?>'">Back</button>
     <button type="submit" class="btn btn-primary">Simpan</button>
   </div>
   <?php echo form_close() ?>
@@ -52,10 +55,10 @@ if(! empty(session()->getFlashdata('info'))) {
   'class' => 'bg-info',
   'autohide' => 'true',
   'delay' => '5000',
-  'title' => 'Update Category',
+  'title' => 'Create Category',
   'subtitle' => '',
   'body' => session()->getFlashdata('info'),
-  'icon' => 'icon fas fa-edit',
+  'icon' => 'icon fas fa-file-alt',
   'image' => '',
   'imageAlt' => '',
   ];

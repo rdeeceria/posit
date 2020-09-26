@@ -143,7 +143,26 @@
     </div>
   </div>
 </div>
+<?php
+if(! empty(session()->getFlashdata('success'))) {
+  $toast = [
+  'class' => 'bg-success',
+  'autohide' => 'true',
+  'delay' => '5000',
+  'title' => 'Create Product',
+  'subtitle' => '',
+  'body' => session()->getFlashdata('success'),
+  'icon' => 'icon fas fa-file-alt',
+  'image' => '',
+  'imageAlt' => '',
+  ];
+  echo view('events/toasts', $toast);
+}
+?>
+<?= $this->endSection() ?>
 
+<?= $this->extend('partials/index') ?>
+<?= $this->section('script') ?>
 <script>
 function thumbnail() {
 
@@ -161,20 +180,4 @@ function thumbnail() {
   }
 }
 </script>
-<?php
-if(! empty(session()->getFlashdata('success'))) {
-  $toast = [
-  'class' => 'bg-success',
-  'autohide' => 'true',
-  'delay' => '5000',
-  'title' => 'Create Product',
-  'subtitle' => '',
-  'body' => session()->getFlashdata('success'),
-  'icon' => 'icon fas fa-file-alt',
-  'image' => '',
-  'imageAlt' => '',
-  ];
-  echo view('events/toasts', $toast);
-}
-?>
 <?= $this->endSection() ?>

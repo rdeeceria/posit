@@ -14,18 +14,25 @@
   </div>
   <div class="card-body">
     <div class="form-group">
+      <label for="">Tata Cara Import Dari Excel</label>
+      <div>
+        <img src="/uploads/sampleImport.png" alt="Thumbnail" class="img-fluid">
+      </div>
+    </div>
+    <div class="form-group">
       <label for="">Import Transaction File</label>
       <div class="custom-file">
         <?php $custom = $validation->hasError('trx_file') ? 'custom-file-label form-control is-invalid' : 'custom-file-label form-control' ?>
         <label class="<?= esc($custom) ?>" for="trx_file">Choose file</label>
         <?php
-        $image = [
+        $import = [
           'id' => 'trx_file',
           'class' => 'custom-file-input',
           'name' => 'trx_file',
           'accept' => '.xlx,.xlsx',
+          'onchange' => 'filename()',
         ];
-        echo form_upload($image);
+        echo form_upload($import);
         ?>
         <div class="invalid-feedback">
         <?= $validation->getError('trx_file'); ?>
@@ -42,20 +49,17 @@
 
 </div>
 </div>
-<?php
-if(! empty(session()->getFlashdata('success'))) {
-  $toast = [
-  'class' => 'bg-success',
-  'autohide' => 'true',
-  'delay' => '5000',
-  'title' => 'Import Transaction',
-  'subtitle' => '',
-  'body' => session()->getFlashdata('success'),
-  'icon' => 'icon fas fa-file-alt',
-  'image' => '',
-  'imageAlt' => '',
-  ];
-  echo view('events/toasts', $toast);
+<?= $this->endSection() ?>
+
+<?= $this->extend('partials/index') ?>
+<?= $this->section('script') ?>
+<script>
+function filename() {
+
+  const file = document.querySelector('#trx_file');
+  const fileLabel = document.querySelector('.custom-file-label');
+
+  fileLabel.textContent = file.files[0].name;
 }
-?>
+</script>
 <?= $this->endSection() ?>

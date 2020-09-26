@@ -20,10 +20,10 @@
         <b>Category</b> <a class="float-right"><?= esc($v['category_name']) ?></a>
       </li>
       <li class="list-group-item">
-        <b>Transactions</b> <a class="float-right">54</a>
+        <b>Transactions</b> <a class="float-right"><?= esc($v['transaction_count']) ?></a>
       </li>
       <li class="list-group-item">
-        <b>Omzet</b> <a class="float-right">13,287,98</a>
+        <b>Omzet</b> <a class="float-right"><?php echo "Rp. ".number_format($v['omzet']) ?></a>
       </li>
     </ul>
 

@@ -18,6 +18,10 @@ class Transactions extends Migration
 				'constraint'     	=> 13,
 				'null'						=> false,
 			],
+			'trx_qty'				=> [
+				'type'           	=> 'TINYINT',
+				'constraint'     	=> 3,
+			],
 			'trx_price'			=> [
 				'type'           	=> 'INT',
 				'constraint'     	=> 10,

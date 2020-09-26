@@ -38,7 +38,7 @@ class Product extends BaseController
     }
 
     $data += [
-      'list' => $this->M_Product->getProduct($where, $like, $orLike),
+      'list' => $this->M_Product->getProducts($where, $like, $orLike),
       'pager' => $this->M_Product->pager,
       'create' => '/product/create',
       'read' => '/product/read/',
@@ -88,7 +88,7 @@ class Product extends BaseController
   public function read($id)
   {
     $data = [
-      'v' => $this->M_Product->getProduct($id),
+      'v' => $this->M_Product->getProductOmzet($id),
     ];
     echo view('product/read', $data);
   }
@@ -148,7 +148,7 @@ class Product extends BaseController
     }
   }
 
-  public function upload($segment)
+  function upload($segment)
   {
     $file = $this->request->getFile('product_image');
     switch($segment)

@@ -50,17 +50,34 @@ class M_Product extends Model
     ];
   }
 
-  public function getProduct($where = null, $like = null, $orLike = null, $paginate = 5, $id = null)
+  public function getProducts($where = null, $like = null, $orLike = null, $paginate = 5, $id = null)
   {
-    if(empty($id)) {
-      return $this->join('categories', 'categories.category_id = products.category_id')
+    return $this->join('categories', 'categories.category_id = products.category_id')
       ->where($where)->like($like)->orLike($orLike)
       ->orderBy('Product_id DESC')->paginate($paginate, 'product');
-    }
-    else
-    {
-      return $this->join('categories', 'categories.category_id = products.category_id')->where('Product_id', $id)->first();
-    } 
+  }
+
+  public function getProduct($id)
+  {
+    return $this->join('categories', 'categories.category_id = products.category_id')
+    ->where('Product_id', $id)->first();
+  }
+
+  public function getProductOmzet($id)
+  {
+    $query = $this->query("SELECT 
+      products.product_name,
+      products.product_sku,
+      products.product_image,
+      categories.category_name,
+      COUNT(DISTINCT transactions.trx_id) as transaction_count,
+      SUM(transactions.trx_price) as omzet
+      FROM products 
+      LEFT JOIN categories ON products.category_id = categories.category_id
+      LEFT JOIN transactions ON products.product_id = transactions.product_id
+      WHERE products.product_id = '$id'");
+
+    return $query->getRowArray();
   }
 
   public function postProduct($data) 
@@ -81,12 +98,12 @@ class M_Product extends Model
 
   public function getStatus($status)
   {
-    return $this->where('products_status', $status)->findAll();
+    return $this->where('product_status', $status)->findAll();
   }
 
-  public function getPrice($id)
+  public function getProductSKU($sku)
   {
-    return $this->where('product_id', $id)->first();
+    return $this->where('product_sku', $sku)->first();
   }
 
 }

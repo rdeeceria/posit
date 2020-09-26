@@ -76,7 +76,7 @@
           <?php $sts = $v['category_status'] == 'Inactive' ? 'badge badge-danger' : 'badge badge-primary' ; ?>
           <span class="<?= esc($sts) ?>"><?= esc($v['category_name']) ?></span>
         </td>
-        <td><?= esc($v['product_price']) ?></td>
+        <td><?php echo "Rp. ".number_format($v['product_price']) ?></td>
         <td><?= esc($v['product_status']) ?></td>
         <td>
         <div class="btn-group">
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   $("#keyword").keypress(function(event) {
-    if(event.keyCode == 13) { // 13 adalah kode enter
+    if(event.keyCode == 13) {
       filter();
     }
   });

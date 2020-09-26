@@ -8,34 +8,38 @@
     <h5 class="card-title">Create Transaction</h5>
   </div>
   <div class="card-body">
-  <?php echo form_open($action) ?>
+    <?php echo form_open($action) ?>
     <div class="form-group">
-      <label for="">Name</label>
-      <?php 
-      $name = [
-        'type' => 'text',
-        'class' => $validation->hasError('category_name') ? 'form-control is-invalid' : 'form-control',
-        'name' => 'category_name',
-        'placeholder' => 'Enter category name',
-        'minlength' => '3',
-        'value' => set_value('category_name'),
+      <label for="">Product</label>
+      <?php
+      $selected = old('product_id') == null ? '' : old('product_id');
+      $param =[
+        'class' => 'custom-select',
+        'required' => '',
+      ];
+      echo form_dropdown('product_id', $products, $selected, $param);
+      ?>
+    </div>
+    <div class="form-group">
+      <label for="">QTY</label>
+      <?php
+      $qty = [
+        'type' => 'number',
+        'class' => $validation->hasError('trx_qty') ? 'form-control is-invalid' : 'form-control',
+        'name' => 'trx_qty',
+        'minlength' => '1',
+        'placeholder' => 'Enter Quantity',
+        'value' => old('trx_qty'),
         'required' => ''
       ];
-      echo form_input($name);
+      echo form_input($qty);
       ?>
       <div class="invalid-feedback">
-      <?= $validation->getError('category_name') ?>
+      <?= $validation->getError('trx_qty'); ?>
       </div>
     </div>
-    <div class="form-group">
-      <label for="">Status</label>
-      <select name="category_status" class="custom-select" required>
-        <option value="">Choose Category</option>
-        <option <?= old('category_status') == 'Active' ? 'selected' : ''; ?> value="Active">Active</option>
-        <option <?= old('category_status') == 'Inactive' ? 'selected' : ''; ?> value="Inactive">Inactive</option>
-      </select>
-    </div>
-  </div>   
+    <input type="hidden" name="trx_date" value="<?php echo date('Y-m-d', time()) ?>">
+  </div> 
   <div class="card-footer">
     <button type="button" class="btn btn-secondary" onclick="window.location.href='<?= esc($back) ?>'">Back</button>
     <button type="submit" class="btn btn-primary">Simpan</button>
