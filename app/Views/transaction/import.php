@@ -9,7 +9,7 @@
     <h5 class="card-title"><i class="fas fa-upload"></i> Import</h5>
     <div class="card-tools">
     <button type="button" class="btn btn-default btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i>
-      </button>
+    </button>
     </div>
   </div>
   <div class="card-body">

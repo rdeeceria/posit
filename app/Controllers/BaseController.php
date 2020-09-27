@@ -51,13 +51,4 @@ class BaseController extends Controller
 
 	}
 
-	public function cek_login()
-	{
-    $result = true;
-    if(session()->get('level') != "Admin" && session()->get('status') != "Active") {
-			$result = false;
-    }
-    return $result;
-	}
-
 }

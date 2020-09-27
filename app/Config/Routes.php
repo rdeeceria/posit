@@ -16,7 +16,7 @@ if (file_exists(SYSTEMPATH . 'Config/Routes.php'))
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('Dashboard');
+$routes->setDefaultController('Auth');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
@@ -31,30 +31,36 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
-$routes->get('/', 'Auth');
+$routes->get('/', 'Auth::index');
 $routes->match(['get', 'post'], '/login', 'Auth::login');
 $routes->match(['get', 'post'], '/register', 'Auth::register');
 $routes->get('/logout', 'Auth::logout');
 
-$routes->get('dashboard', 'Dashboard::index');
+$routes->get('dashboard', 'Dashboard::index', ['filter' => 'isLoggedIn']);
 
-$routes->get('category', 'Category::index');
-$routes->match(['get', 'post'], 'category/create', 'Category::create');
-$routes->match(['get', 'post'], 'category/update/(:any)', 'Category::update/$1');
-$routes->get('category/delete/(:any)', 'Category::delete/$1');
-$routes->addRedirect('category/update', 'category');
+$routes->group('category', ['filter' => 'isLoggedIn'], function($routes) {
+	$routes->get('/', 'Category::index');
+	$routes->match(['get', 'post'], '/create', 'Category::create');
+	$routes->match(['get', 'post'], '/update/(:any)', 'Category::update/$1');
+	$routes->get('/delete/(:any)', 'Category::delete/$1');
+	$routes->addRedirect('/update', 'category');
+});
 
-$routes->get('product', 'Product::index');
-$routes->match(['get', 'post'], 'product/create', 'Product::create');
-$routes->match(['get', 'post'], 'product/update/(:any)', 'Product::update/$1');
-$routes->get('product/delete/(:any)', 'Product::delete/$1');
-$routes->addRedirect('product/update', 'product');
+$routes->group('product', ['filter' => 'isLoggedIn'], function($routes) {
+	$routes->get('/', 'Product::index');
+	$routes->match(['get', 'post'], '/create', 'Product::create');
+	$routes->match(['get', 'post'], '/update/(:any)', 'Product::update/$1');
+	$routes->get('/delete/(:any)', 'Product::delete/$1');
+	$routes->addRedirect('/update', 'product');
+});
 
-$routes->get('transaction', 'Transaction::index');
-$routes->match(['get', 'post'], 'transaction/create', 'Transaction::create');
-$routes->match(['get', 'post'], 'transaction/update/(:any)', 'Transaction::update/$1');
-$routes->get('transaction/delete/(:any)', 'Transaction::delete/$1');
-$routes->addRedirect('transaction/update', 'transaction');
+$routes->group('transaction', ['filter' => 'isLoggedIn'], function($routes) {
+	$routes->get('/', 'Transaction::index');
+	$routes->match(['get', 'post'], '/create', 'Transaction::create');
+	$routes->match(['get', 'post'], '/update/(:any)', 'Transaction::update/$1');
+	$routes->get('/delete/(:any)', 'Transaction::delete/$1');
+	$routes->addRedirect('/update', 'transaction');
+});
 
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
 	$routes->group('categories', function($routes) {

@@ -2,14 +2,9 @@
   
 class Auth extends BaseController
 {
-  public function __construct()
-  {
-    $this->cek_login();
-  }
-
   public function index()
   {
-    if($this->cek_login() == TRUE) {
+    if($this->session->has('id')) {
       return redirect()->route('dashboard');
     }
     else
@@ -31,6 +26,10 @@ class Auth extends BaseController
     }
     else
     {
+      if($this->session->has('id')) {
+        return redirect()->route('dashboard');
+      }
+
       $rules = $this->M_Auth->authlogin();
 
       if(! $this->validate($rules)) {
@@ -42,25 +41,28 @@ class Auth extends BaseController
 
       $data = $this->M_Auth->userCheck($email);
       
-      if($data != null) {
+      if(! empty($data)) {
 
         if(password_verify($password, $data['password'])) {
-          $this->session->set('email', $data['email']);
-          $this->session->set('name', $data['name']);
-          $this->session->set('level', $data['level']);
-          $this->session->set('status', $data['status']);
+          $dataSession = [
+            'id' => $data['id'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'status' => $data['status'],
+          ];
+          $this->session->set($dataSession);
 
           return redirect()->route('dashboard');
         }
         else
         {
-          $this->session->setFlashdata('errors', ['' => 'Password yang Anda masukan salah']);
+          $this->session->setFlashdata('errors', 'Password yang Anda masukan salah');
           return redirect()->back();
         }
       } 
       else 
       {
-        $this->session->setFlashdata('errors', ['' => 'Email yang Anda masukan tidak terdaftar']);
+        $this->session->setFlashdata('errors', 'Email yang Anda masukan tidak terdaftar');
         return redirect()->route('/');
       }
     }
@@ -90,7 +92,7 @@ class Auth extends BaseController
         'username' => $this->request->getPost('username'),
         'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
         'status' => "Active",
-        'level' => "Admin",
+        'level' => "User",
       ];
       $simpan = $this->M_Auth->register($data);
 

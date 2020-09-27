@@ -35,7 +35,7 @@ class M_Dashboard extends Model
       GROUP BY MONTHNAME(trx_date) 
       ORDER BY MONTH(trx_date)");
       
-    if(!empty($query)){
+    if(! empty($query)){
       foreach($query->getResultArray() as $data) {
         $hasil[] = $data;
       }

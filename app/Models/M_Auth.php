@@ -38,12 +38,12 @@ class M_Auth extends Model
       ],
       'username' => [
         'label' => 'username',
-        'rules' => 'required|alpha_numeric|is_unique[users.username]|min_length[6]|max_length[30]',
+        'rules' => 'required|alpha_numeric|is_unique[users.username]|min_length[6]|max_length[13]',
         'errors' => [
           'alpha_numeric' => '{field} hanya boleh berisi huruf dan angka',
           'is_unique' => '{field} sudah terdaftar',
           'min_length' => '{field} minimal 6 karakter',
-          'max_length' => '{field} maksimal 30 karakter'
+          'max_length' => '{field} maksimal 13 karakter'
         ]
       ],
       'name' => [

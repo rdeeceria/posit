@@ -13,14 +13,12 @@
       <div class="card-body login-card-body">
         <p class="login-box-msg">Sign in to start your session</p>
         
-        <?php if($errors = session()->getFlashdata('errors')) : ?>
-          <?php foreach ($errors as $error) : ?>
-            <div class="alert alert-warning alert-dismissible">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-              <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
-              <?php echo esc($error); ?>
-            </div>
-          <?php endforeach ?>
+        <?php if($error = session()->getFlashdata('errors')) : ?>
+          <div class="alert alert-warning alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-exclamation-triangle"></i> Alert!</h5>
+            <?php echo esc($error); ?>
+          </div>
         <?php endif ?>
 
         <?php if($success_register = session()->getFlashdata('success_register')) : ?>
