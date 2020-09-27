@@ -42,7 +42,7 @@
         </li>
         <li class="nav-header">ACCOUNT</li>
         <li class="nav-item">
-          <a href="/logout'); ?>" class="nav-link">
+          <a href="/logout" class="nav-link">
             <i class="nav-icon far fa-circle text-danger"></i>
             <p class="text">Logout</p>
           </a>

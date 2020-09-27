@@ -47,7 +47,6 @@ class Transaction extends BaseController
       $qty = $this->request->getPost('trx_qty');
 
       $product = $this->M_Product->getProduct($product_id);
-
       $data = [
         'product_id' => $product_id,
         'trx_qty' => $qty,
@@ -88,7 +87,6 @@ class Transaction extends BaseController
       $qty = $this->request->getPost('trx_qty');
 
       $product = $this->M_Product->getProduct($product_id);
-
       $data = [
         'product_id' => $product_id,
         'trx_qty' => $qty,
@@ -185,7 +183,6 @@ class Transaction extends BaseController
       $data = $this->transposeData($batch);
 
       foreach($data as $v) {
-
         $value = [
           'product_id' => $v['product_id'],
           'trx_qty' => (int)$v['trx_qty'],
@@ -202,7 +199,7 @@ class Transaction extends BaseController
     }
   }
 
-  public function export()
+  function export()
   {
     $spreadsheet = new Spreadsheet;
 
@@ -213,13 +210,11 @@ class Transaction extends BaseController
     ->setCellValue('D1', 'Date')
     ->setCellValue('E1', 'Price');
 
-    $transactions = $this->M_Transaction->getTransaction();
-
     $kolom = 2;
     $nomor = 1;
+    $transactions = $this->M_Transaction->getTransaction();
 
     foreach($transactions as $data) {
-
       $spreadsheet->setActiveSheetIndex(0)
       ->setCellValue('A' . $kolom, $nomor)
       ->setCellValue('B' . $kolom, $data['product_name'])
@@ -233,15 +228,17 @@ class Transaction extends BaseController
     $this->download($spreadsheet);
   }
 
-  public function download($sheet)
+  function download($sheet)
   {
+    $writer = new Xlsx($sheet);
+
     $segment = $this->request->uri->getSegment(2);
     $filename = $segment.'.xlsx';
-    $writer = new Xlsx($sheet);
   
-    header('Content-Type: application/vnd.ms-excel');
-    header('Content-Disposition: attachment;filename="'.$filename.'"');
-    header('Cache-Control: max-age=0');
+    $this->response
+    ->setHeader('Content-Type', 'application/vnd.ms-excel')
+    ->setHeader('Content-Disposition', 'attachment;filename="'.$filename.'"')
+    ->setHeader('Cache-Control', 'no-cache');
 
     $writer->save('php://output');
   }

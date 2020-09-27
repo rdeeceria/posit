@@ -133,7 +133,6 @@ if(! empty(session()->getFlashdata('warning'))) {
 ?>
 <?= $this->endSection() ?>
 
-<?= $this->extend('partials/index') ?>
 <?= $this->section('script') ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {

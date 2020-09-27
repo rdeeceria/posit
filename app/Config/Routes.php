@@ -31,8 +31,12 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+$routes->get('/', 'Auth');
+$routes->match(['get', 'post'], '/login', 'Auth::login');
+$routes->match(['get', 'post'], '/register', 'Auth::register');
+$routes->get('/logout', 'Auth::logout');
+
 $routes->get('dashboard', 'Dashboard::index');
-$routes->addRedirect('/', 'dashboard');
 
 $routes->get('category', 'Category::index');
 $routes->match(['get', 'post'], 'category/create', 'Category::create');
@@ -54,11 +58,11 @@ $routes->addRedirect('transaction/update', 'transaction');
 
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
 	$routes->group('categories', function($routes) {
-			$routes->get('', 'categories::index');
-			$routes->get('(:any)', 'categories::show/$1');
-			$routes->post('create', 'categories::create');
-			$routes->put('(:any)', 'categories::update/$1');
-			$routes->delete('(:any)', 'categories::delete/$1');
+		$routes->get('', 'categories::index');
+		$routes->get('(:any)', 'categories::show/$1');
+		$routes->post('create', 'categories::create');
+		$routes->put('(:any)', 'categories::update/$1');
+		$routes->delete('(:any)', 'categories::delete/$1');
 	});
 
 	$routes->group('products', function($routes) {

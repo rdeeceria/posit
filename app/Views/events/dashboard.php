@@ -107,7 +107,6 @@
 </div>
 <?= $this->endSection() ?>
 
-<?= $this->extend('partials/index') ?>
 <?= $this->section('script') ?>
 <script>
 var chart = document.getElementById("myChart").getContext('2d');

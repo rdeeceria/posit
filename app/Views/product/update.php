@@ -169,7 +169,6 @@ if(! empty(session()->getFlashdata('info'))) {
 ?>
 <?= $this->endSection() ?>
 
-<?= $this->extend('partials/index') ?>
 <?= $this->section('script') ?>
 <script>
 function thumbnail() {

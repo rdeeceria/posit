@@ -34,8 +34,6 @@ class Category extends BaseController
       $rules = $this->M_Category->validationRules();
 
       if(! $this->validate($rules)) {
-        
-    dd($this->session);
         return redirect()->back()->withInput();
       }
       $data = $this->request->getPost();

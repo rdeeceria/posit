@@ -16,7 +16,7 @@ class Dashboard extends BaseController
       'latest_trx' => $this->M_Dashboard->getLatestTrx(),
       'grafik' => $this->M_Dashboard->getGrafik(),
     ];
-    echo view('dashboard', $data);
+    echo view('events/dashboard', $data);
   }
     
 }

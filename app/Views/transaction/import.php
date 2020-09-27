@@ -51,7 +51,6 @@
 </div>
 <?= $this->endSection() ?>
 
-<?= $this->extend('partials/index') ?>
 <?= $this->section('script') ?>
 <script>
 function filename() {

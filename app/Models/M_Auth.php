@@ -5,6 +5,8 @@ use CodeIgniter\Model;
 class M_Auth extends Model
 {
   protected $table = "users";
+  protected $primaryKey = 'id';
+  protected $allowedFields = ['id','username','name','email','password','status','level'];
 
   public function authlogin()
   {
@@ -58,7 +60,7 @@ class M_Auth extends Model
         'rules' => 'required|min_length[6]|max_length[30]',
         'errors' => [
           'min_length' => '{field} minimal 6 karakter',
-          'max_length' => '{field} maksimal 35 karakter'
+          'max_length' => '{field} maksimal 30 karakter'
         ]
       ],
       'confirm_password' => [
@@ -72,7 +74,7 @@ class M_Auth extends Model
     ];
   }
  
-  public function cek_login($email)
+  public function userCheck($email)
   {
     $query = $this->where('email', $email)->countAll();
 
@@ -89,7 +91,8 @@ class M_Auth extends Model
  
   public function register($data)
   {
-    return $this->insert($data);
+    $this->insert(array('id' => uniqid()) + $data);
+    return true;
   }
 
 
