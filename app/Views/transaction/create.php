@@ -13,11 +13,7 @@
       <label for="">Product</label>
       <?php
       $selected = old('product_id') == null ? '' : old('product_id');
-      $param =[
-        'class' => 'custom-select',
-        'required' => '',
-      ];
-      echo form_dropdown('product_id', $products, $selected, $param);
+      echo form_dropdown('product_id', $products, $selected, ['class' => 'custom-select', 'required' => '']);
       ?>
     </div>
     <div class="form-group">
@@ -35,7 +31,7 @@
       echo form_input($qty);
       ?>
       <div class="invalid-feedback">
-      <?= $validation->getError('trx_qty'); ?>
+      <?= $validation->getError('trx_qty') ?>
       </div>
     </div>
     <input type="hidden" name="trx_date" value="<?php echo date('Y-m-d', time()) ?>">
@@ -49,6 +45,9 @@
 
 </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
 <?php
 if(! empty(session()->getFlashdata('success'))) {
   $toast = [

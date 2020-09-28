@@ -57,11 +57,11 @@
       </thead>
       <tbody>
       <?php if(empty($list)) : ?>
-      <tr><td colspan="8"><h3>Belum ada data</h3><p>Silahkan menambahkan data terlebih dahulu.</p></td></tr>      
+      <tr><td colspan="7"><h3>Belum ada data</h3><p>Silahkan menambahkan data terlebih dahulu.</p></td></tr>      
       <?php else : ?>
       <?php foreach($list as $k => $v) : ?>
-      <?= esc($v['product_status'] == 'Inactive') ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
-        <td><?= esc(++$k); ?></td>
+      <?= $v['product_status'] == 'Inactive' ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
+        <td><?= ++$k ?></td>
           <?php 
             $def = site_url('uploads/product/') . 'default.png';
             $val = site_url('uploads/product/') . $v['product_image'];
@@ -69,35 +69,35 @@
           ?>
         <td><img src="<?= esc($imgscr) ?>" class="rounded" width="50" height="50"></td>
         <td>
-          <h6><?= esc($v['product_sku']) ?></h6>
-          <small><?= esc($v['product_name']) ?></small>
+          <h6><?= $v['product_sku'] ?></h6>
+          <small><?= $v['product_name'] ?></small>
         </td>
         <td class="">
-          <?php $sts = $v['category_status'] == 'Inactive' ? 'badge badge-danger' : 'badge badge-primary' ; ?>
-          <span class="<?= esc($sts) ?>"><?= esc($v['category_name']) ?></span>
+          <?php $sts = $v['category_status'] == 'Inactive' ? 'badge badge-danger' : 'badge badge-primary'  ?>
+          <span class="<?= $sts ?>"><?= $v['category_name'] ?></span>
         </td>
-        <td><?php echo "Rp. ".number_format($v['product_price']) ?></td>
-        <td><?= esc($v['product_status']) ?></td>
+        <td><?= "Rp. ".number_format($v['product_price']) ?></td>
+        <td><?= $v['product_status'] ?></td>
         <td>
-        <div class="btn-group">
-          <button type="button" class="btn btn-primary btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($read . $v['product_id']) ?>'">
-          <i class="fa fa-eye"></i> View</button>
-          <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($update . $v['product_id']) ?>'">
-          <i class="fa fa-edit"></i> Edit</button>
-          <button type="button" class="btn btn-warning btn-sm" title="<?= esc($v['product_name']); ?>" data-toggle="modal" data-target="#modal_<?= esc($k) ?>">
-          <i class="fa fa-trash-alt"></i> Delete</button>
-        </div>
-        <?php
-          $modals = [
-            'id' => 'modal_'.esc($k),
-            'size' => 'modal-sm',
-            'class' => 'bg-warning',
-            'title' => 'Delete Product',
-            'bodytext' => 'Anda Yakin Ingin Menghapus Kategori '.$v['product_name'],
-            'action' => esc($delete . $v['product_id']),
-            ];
-          echo view('events/modals', $modals);
-        ?>
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($read . $v['product_id']) ?>'">
+            <i class="fa fa-eye"></i> View</button>
+            <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($update . $v['product_id']) ?>'">
+            <i class="fa fa-edit"></i> Edit</button>
+            <button type="button" class="btn btn-warning btn-sm" title="<?= esc($v['product_name']) ?>" data-toggle="modal" data-target="#modal_<?= esc($k) ?>">
+            <i class="fa fa-trash-alt"></i> Delete</button>
+          </div>
+          <?php
+            $modals = [
+              'id' => 'modal_'.$k,
+              'size' => 'modal-sm',
+              'class' => 'bg-warning',
+              'title' => 'Delete Product',
+              'bodytext' => 'Anda Yakin Ingin Menghapus Product '.$v['product_name'],
+              'action' => esc($delete . $v['product_id']),
+              ];
+            echo view('events/modals', $modals);
+          ?>
         </td>
       </tr>
       <?php endforeach ?>
@@ -115,6 +115,9 @@
 
 </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
 <?php 
 if(! empty(session()->getFlashdata('warning'))) {
   $toast = [
@@ -131,9 +134,6 @@ if(! empty(session()->getFlashdata('warning'))) {
   echo view('events/toasts', $toast);
 }
 ?>
-<?= $this->endSection() ?>
-
-<?= $this->section('script') ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 

@@ -5,7 +5,7 @@
 
 <div class="card">
   <div class="card-header">
-    <h5 class="card-title">Create Category</h5>
+    <h5 class="card-title">Update Category</h5>
   </div>
   <div class="card-body">
   <?php echo form_open($action) ?>
@@ -24,21 +24,21 @@
       echo form_input($name)
       ?>
       <div class="invalid-feedback">
-      <?= $validation->getError('category_name'); ?>
+      <?= $validation->getError('category_name') ?>
       </div>
     </div>
     <div class="form-group">
       <label for="">Status</label>
       <select name="category_status" id="" class="custom-select" required>
         <option value="">Choose Category</option>
-        <?php $status = old('category_status') == null ? esc($category_status) : old('category_status'); ?>
-        <option <?= esc($status) == 'Active' ? 'selected' : ''; ?> value="Active">Active</option>
-        <option <?= esc($status) == 'Inactive' ? 'selected' : ''; ?> value="Inactive">Inactive</option>
+        <?php $status = old('category_status') == null ? $category_status : old('category_status') ?>
+        <option <?= $status == 'Active' ? 'selected' : '' ?> value="Active">Active</option>
+        <option <?= $status == 'Inactive' ? 'selected' : '' ?> value="Inactive">Inactive</option>
       </select>
     </div>  
   </div>  
   <div class="card-footer">
-    <button type="button" class="btn btn-secondary" onclick="window.location.href='<?=esc($back); ?>'">Back</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='<?= esc($back) ?>'">Back</button>
     <button type="submit" class="btn btn-primary">Simpan</button>
   </div>
   <?php echo form_close() ?>
@@ -46,6 +46,9 @@
 
 </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
 <?php
 if(! empty(session()->getFlashdata('info'))) {
   $toast = [

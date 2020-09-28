@@ -5,11 +5,11 @@
 		$url = substr((string)$uri, 0, strpos((string)$uri, $segment)) . $segment;
 		$is_active = ($url == (string)$uri);
 	?>
-	<li class="breadcrumb-item <?php echo $is_active ? 'active': '' ?>">
+	<li class="breadcrumb-item <?= $is_active ? 'active': '' ?>">
 		<?php if($is_active) : ?>
-			<?php echo ucfirst($segment) ?>
+			<?= ucfirst($segment) ?>
 		<?php else : ?>
-			<a href="<?php echo base_url($url) ?>"><?php echo ucfirst($segment) ?></a>
+			<a href="<?= $url ?>"><?= ucfirst($segment) ?></a>
 		<?php endif ?>
 	</li>
 <?php endforeach ?>

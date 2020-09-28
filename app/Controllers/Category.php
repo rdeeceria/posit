@@ -2,11 +2,6 @@
 
 class Category extends BaseController
 {
-  function __construct()
-  {
-    view('partials/index', array('subtitle' => 'Categories'));
-  }
-
   public function index()
   { 
     $data = [

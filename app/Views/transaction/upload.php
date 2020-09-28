@@ -6,7 +6,7 @@
 <div class="card">
 <?php echo form_open($action) ?>
   <div class="card-header">
-    <h5 class="card-title"><i class="fas fa-upload"></i> <?= esc($filename) ?></h5>
+    <h5 class="card-title"><i class="fas fa-upload"></i> <?= $filename ?></h5>
     <div class="card-tools">
     <button type="button" class="btn btn-default btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i>
       </button>
@@ -30,17 +30,16 @@
       <?php else : ?>
       <?php foreach($list as $k => $v) : ?>
       <tr>
-        <td><?= esc(++$k) ?></td>
-        <td><h6><?= esc($v['product_name']) ?></h6></td>
-        <td><h6><?= esc($v['trx_qty']) ?></h6></td>
-        <td><?php echo date('d-m-Y', strtotime($v['trx_date'])) ?></td>
-        <td><?php echo "Rp. ".number_format($v['trx_price']) ?></td>
-        <td>
+        <td><?= ++$k ?></td>
+        <td><h6><?= $v['product_name'] ?></h6></td>
+        <td><h6><?= $v['trx_qty'] ?></h6></td>
+        <td><?= date('d-m-Y', strtotime($v['trx_date'])) ?></td>
+        <td><?= "Rp. ".number_format($v['trx_price']) ?></td>
+        <input type="hidden" name="product_id[<?= esc($k) ?>]" value="<?= esc($v['product_id']) ?>" >
+        <input type="hidden" name="trx_qty[<?= esc($k) ?>]" value="<?= esc($v['trx_qty']) ?>">
+        <input type="hidden" name="trx_date[<?= esc($k) ?>]" value="<?= esc($v['trx_date']) ?>">
+        <input type="hidden" name="trx_price[<?= esc($k) ?>]" value="<?= esc($v['trx_price']) ?>">
       </tr>
-      <input type="hidden" name="product_id[<?= esc($k) ?>]" value="<?= esc($v['product_id']) ?>" >
-      <input type="hidden" name="trx_qty[<?= esc($k) ?>]" value="<?= esc($v['trx_qty']) ?>">
-      <input type="hidden" name="trx_date[<?= esc($k) ?>]" value="<?= esc($v['trx_date']) ?>">
-      <input type="hidden" name="trx_price[<?= esc($k) ?>]" value="<?= esc($v['trx_price']) ?>">
       <?php endforeach ?>
       <?php endif ?>
       </tbody>

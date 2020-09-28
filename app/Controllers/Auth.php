@@ -22,14 +22,10 @@ class Auth extends BaseController
   {
     if($this->request->getMethod() === 'get') 
     {
-      return redirect()->route('/');
+      return redirect()->to('/');
     }
     else
     {
-      if($this->session->has('id')) {
-        return redirect()->route('dashboard');
-      }
-
       $rules = $this->M_Auth->authlogin();
 
       if(! $this->validate($rules)) {
@@ -42,6 +38,11 @@ class Auth extends BaseController
       $data = $this->M_Auth->userCheck($email);
       
       if(! empty($data)) {
+        
+        if($data['status'] == 'Inactive') {
+          $this->session->setFlashdata('errors', 'Akun anda belum aktif, Silahkan Contact Administrator');
+          return redirect()->to('/');
+        }
 
         if(password_verify($password, $data['password'])) {
           $dataSession = [
@@ -63,7 +64,7 @@ class Auth extends BaseController
       else 
       {
         $this->session->setFlashdata('errors', 'Email yang Anda masukan tidak terdaftar');
-        return redirect()->route('/');
+        return redirect()->to('/');
       }
     }
   }
@@ -91,14 +92,14 @@ class Auth extends BaseController
         'name' => $this->request->getPost('name'),
         'username' => $this->request->getPost('username'),
         'password' => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
-        'status' => "Active",
+        'status' => "Inactive",
         'level' => "User",
       ];
       $simpan = $this->M_Auth->register($data);
 
       if($simpan) {
         $this->session->setFlashdata('success_register', 'Register Successfully');
-        return redirect()->route('/');
+        return redirect()->to('/');
       }
     }
   }
@@ -106,7 +107,7 @@ class Auth extends BaseController
   public function logout()
   {
     $this->session->destroy();
-    return redirect()->route('/');
+    return redirect()->to('/');
   }
 
 }

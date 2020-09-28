@@ -26,7 +26,7 @@
               echo form_input($name);
               ?>
               <div class="invalid-feedback">
-              <?= $validation->getError('product_name'); ?>
+              <?= $validation->getError('product_name') ?>
               </div>
             </div>
             <div class="form-group">
@@ -43,7 +43,7 @@
               echo form_input($sku);
               ?>
               <div class="invalid-feedback">
-              <?= $validation->getError('product_sku'); ?>
+              <?= $validation->getError('product_sku') ?>
               </div>
             </div>
             <div class="form-group">
@@ -60,15 +60,15 @@
               echo form_input($price);
               ?>
               <div class="invalid-feedback">
-              <?= $validation->getError('product_price'); ?>
+              <?= $validation->getError('product_price') ?>
               </div>
             </div>
             <div class="form-group">
               <label for="">Status</label>
               <select name="product_status" class="custom-select" required>
                 <option value="">Choose Status</option>
-                <option <?= old('product_status') == 'Active' ? 'selected' : ''; ?> value="Active">Active</option>
-                <option <?= old('product_status') == 'Inactive' ? 'selected' : ''; ?> value="Inactive">Inactive</option>
+                <option <?= old('product_status') == 'Active' ? 'selected' : '' ?> value="Active">Active</option>
+                <option <?= old('product_status') == 'Inactive' ? 'selected' : '' ?> value="Inactive">Inactive</option>
               </select>
             </div>
           </div>
@@ -78,11 +78,7 @@
               <label for="">Category</label>
               <?php
               $selected = old('category_id') == null ? '' : old('category_id');
-              $param =[
-                'class' => 'custom-select',
-                'required' => '',
-              ];
-              echo form_dropdown('category_id', $categories, $selected, $param);
+              echo form_dropdown('category_id', $categories, $selected, ['class' => 'custom-select', 'required' => '']);
               ?>
             </div>
             <div class="form-group">
@@ -101,7 +97,7 @@
                 echo form_upload($image);
                 ?>
                 <div class="invalid-feedback">
-                <?= $validation->getError('product_image'); ?>
+                <?= $validation->getError('product_image') ?>
                 </div>
               </div>
           
@@ -135,7 +131,7 @@
 
       </div>   
       <div class="card-footer">
-        <button type="button" class="btn btn-secondary" onclick="window.location.href='<?= esc($back); ?>'">Back</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='<?= esc($back) ?>'">Back</button>
         <button type="submit" class="btn btn-primary">Simpan</button>
       </div>
       <?php echo form_close() ?>
@@ -143,6 +139,9 @@
     </div>
   </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
 <?php
 if(! empty(session()->getFlashdata('success'))) {
   $toast = [
@@ -159,9 +158,6 @@ if(! empty(session()->getFlashdata('success'))) {
   echo view('events/toasts', $toast);
 }
 ?>
-<?= $this->endSection() ?>
-
-<?= $this->section('script') ?>
 <script>
 function thumbnail() {
 

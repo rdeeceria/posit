@@ -63,6 +63,7 @@ $routes->group('transaction', ['filter' => 'isLoggedIn'], function($routes) {
 });
 
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
+
 	$routes->group('categories', function($routes) {
 		$routes->get('', 'categories::index');
 		$routes->get('(:any)', 'categories::show/$1');
@@ -78,6 +79,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) 
 		$routes->put('(:any)', 'products::update/$1');
 		$routes->delete('(:any)', 'products::delete/$1');
 	});
+	
 });
 
 /**

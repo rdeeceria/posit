@@ -7,6 +7,32 @@ class M_Auth extends Model
   protected $table = "users";
   protected $primaryKey = 'id';
   protected $allowedFields = ['id','username','name','email','password','status','level'];
+ 
+  public function userCheck($email)
+  {
+    $query = $this->where('email', $email)->countAll();
+
+    if($query > 0) {
+      $hasil = $this->where('email', $email)
+      ->limit(1)->get()->getRowArray();
+    } 
+    else 
+    {
+      $hasil = array(); 
+    }
+    return $hasil;
+  }
+ 
+  public function register($data)
+  {
+    $this->insert(array('id' => uniqid()) + $data);
+    return true;
+  }
+
+  public function userId($id)
+  {
+    return $this->where('id', $id)->first();
+  }
 
   public function authlogin()
   {
@@ -73,27 +99,5 @@ class M_Auth extends Model
       ],
     ];
   }
- 
-  public function userCheck($email)
-  {
-    $query = $this->where('email', $email)->countAll();
-
-    if($query > 0) {
-      $hasil = $this->where('email', $email)
-      ->limit(1)->get()->getRowArray();
-    } 
-    else 
-    {
-      $hasil = array(); 
-    }
-    return $hasil;
-  }
- 
-  public function register($data)
-  {
-    $this->insert(array('id' => uniqid()) + $data);
-    return true;
-  }
-
 
 }

@@ -8,20 +8,6 @@ class M_Category extends Model
   protected $primaryKey = 'category_id';
   protected $allowedFields = ['category_id','category_name','category_status'];
 
-  public function validationRules($id = null)
-  {
-    return [
-      'category_name' => [
-      'label' => 'Category Name',
-      'rules' => 'required|max_length[20]|is_unique[categories.category_name,category_id,'.$id.']',
-      'errors' => [
-        'is_unique' => 'Data {field} {value} Sudah Ada',
-        'max_length' => '{field} Maximum {param} Character',
-        ]
-      ]
-    ];
-  }
-
   public function getCategory($id = null)
   {
     if(empty($id)) {
@@ -62,4 +48,19 @@ class M_Category extends Model
   {
     return $this->where('category_status', $status)->findAll();
   }
+
+  public function validationRules($id = null)
+  {
+    return [
+      'category_name' => [
+      'label' => 'Category Name',
+      'rules' => 'required|max_length[20]|is_unique[categories.category_name,category_id,'.$id.']',
+      'errors' => [
+        'is_unique' => 'Data {field} {value} Sudah Ada',
+        'max_length' => '{field} Maximum {param} Character',
+        ]
+      ]
+    ];
+  }
+
 }

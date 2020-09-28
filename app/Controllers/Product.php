@@ -6,11 +6,6 @@ class Product extends BaseController
   public $getFile;
   public $imgName;
 
-  public function __construct()
-  {
-    view('partials/index', array('subtitle' => 'Products'));
-  }
-
   public function index()
   { 
     $pager = \Config\Services::pager();
@@ -28,13 +23,13 @@ class Product extends BaseController
     $data['category'] = $category;
     $data['keyword'] = $keyword;
 
-    if(!empty($category)) {
+    if(! empty($category)) {
       $where = ['products.category_id' => $category];
     }
 
-    if(!empty($keyword)) {
-        $like = ['products.product_name' => $keyword];
-        $orLike = ['products.product_sku' => $keyword, 'products.product_description' => $keyword];
+    if(! empty($keyword)) {
+      $like = ['products.product_name' => $keyword];
+      $orLike = ['products.product_sku' => $keyword, 'products.product_description' => $keyword];
     }
 
     $data += [

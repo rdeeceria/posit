@@ -7,7 +7,7 @@
   <div class="card-header">
     <h5 class="card-title"><i class="fas fa-tags"></i> List Category</h5>
     <div class="card-tools">
-      <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='<?= esc($create); ?>'"><i class="fas fa-file-alt"></i> Tambah
+      <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='<?= esc($create) ?>'"><i class="fas fa-file-alt"></i> Tambah
       </button>
       <button type="button" class="btn btn-default btn-sm" data-card-widget="collapse"><i class="fas fa-minus"></i>
       </button>
@@ -30,11 +30,11 @@
       <tr><td colspan="5"><h3>Belum ada data</h3><p>Silahkan menambahkan data terlebih dahulu.</p></td></tr>      
       <?php else : ?>
       <?php foreach($list as $k => $v) : ?>
-      <?= esc($v['category_status']) == 'Inactive' ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
-        <td><?= esc(++$k) ?></td>
-        <td><h6><?= esc($v['category_name']) ?></h6></td>
-        <td><?= esc($v['product_count']) ?></td>
-        <td><?= esc($v['category_status']) ?></td>
+      <?= $v['category_status'] == 'Inactive' ? '<tr style="background-color: #80808020;">' : '<tr>' ?>
+        <td><?= ++$k ?></td>
+        <td><h6><?= $v['category_name'] ?></h6></td>
+        <td><?= $v['product_count'] ?></td>
+        <td><?= $v['category_status'] ?></td>
         <td>
         <div class="btn-group">
           <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['category_name']) ?>" onclick="window.location.href='<?= esc($update . $v['category_id']) ?>'">
@@ -44,7 +44,7 @@
         </div>
         <?php
           $modals = [
-            'id' => 'modal_'.esc($k),
+            'id' => 'modal_'.$k,
             'size' => 'modal-sm',
             'class' => 'bg-warning',
             'title' => 'Delete Category',
@@ -65,6 +65,9 @@
 
 </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
 <?php 
 if(! empty(session()->getFlashdata('warning'))) {
   $toast = [

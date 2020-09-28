@@ -35,7 +35,7 @@
         echo form_upload($import);
         ?>
         <div class="invalid-feedback">
-        <?= $validation->getError('trx_file'); ?>
+        <?= $validation->getError('trx_file') ?>
         </div>
       </div>
     </div>

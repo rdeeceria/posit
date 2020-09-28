@@ -11,19 +11,19 @@
             alt="User profile picture">
     </div>
 
-    <h3 class="profile-username text-center"><?= esc($v['product_name']) ?></h3>
+    <h3 class="profile-username text-center"><?= $v['product_name'] ?></h3>
 
-    <p class="text-muted text-center"><?= esc($v['product_sku']) ?></p>
+    <p class="text-muted text-center"><?= $v['product_sku'] ?></p>
 
     <ul class="list-group list-group-unbordered mb-3">
       <li class="list-group-item">
-        <b>Category</b> <a class="float-right"><?= esc($v['category_name']) ?></a>
+        <b>Category</b> <a class="float-right"><?= $v['category_name'] ?></a>
       </li>
       <li class="list-group-item">
-        <b>Transactions</b> <a class="float-right"><?= esc($v['transaction_count']) ?></a>
+        <b>Transactions</b> <a class="float-right"><?= $v['transaction_count'] ?></a>
       </li>
       <li class="list-group-item">
-        <b>Omzet</b> <a class="float-right"><?php echo "Rp. ".number_format($v['omzet']) ?></a>
+        <b>Omzet</b> <a class="float-right"><?= "Rp. ".number_format($v['omzet']) ?></a>
       </li>
     </ul>
 

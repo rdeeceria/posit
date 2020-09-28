@@ -4,11 +4,6 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class Transaction extends BaseController
 {
-  public function __construct()
-  {
-    view('partials/index', array('subtitle' => 'Transactions'));
-  }
-
   public function index()
   { 
     $data = [

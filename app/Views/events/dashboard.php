@@ -5,7 +5,7 @@
   <div class="col-lg-3 col-6">
     <div class="small-box bg-info">
       <div class="inner">
-        <h3><?php echo $total_transaction; ?></h3>
+        <h3><?php echo $total_transaction ?></h3>
         <p>Transactions</p>
       </div>
       <div class="icon">
@@ -18,7 +18,7 @@
   <div class="col-lg-3 col-6">
     <div class="small-box bg-success">
       <div class="inner">
-        <h3><?php echo $total_product; ?></h3>
+        <h3><?php echo $total_product ?></h3>
         <p>Products</p>
       </div>
       <div class="icon">
@@ -31,7 +31,7 @@
   <div class="col-lg-3 col-6">
     <div class="small-box bg-warning">
       <div class="inner">
-        <h3><?php echo $total_category; ?></h3>
+        <h3><?php echo $total_category ?></h3>
         <p>Categories</p>
       </div>
       <div class="icon">
@@ -44,7 +44,7 @@
   <div class="col-lg-3 col-6">
     <div class="small-box bg-danger">
       <div class="inner">
-        <h3><?php echo $total_user; ?></h3>
+        <h3><?php echo $total_user ?></h3>
         <p>Users</p>
       </div>
       <div class="icon">
@@ -92,10 +92,10 @@
             <tbody>
               <?php foreach($latest_trx as $k => $v) : ?>
               <tr>
-              <td><?php echo ++$k; ?></td>
-              <td><?php echo $v['product_name']; ?></td>
-              <td><?php echo date('j F Y', strtotime($v['trx_date'])); ?></td>
-              <td><?php echo "Rp. ".number_format($v['trx_price'], false, false, "."); ?></td>
+              <td><?php echo ++$k ?></td>
+              <td><?php echo $v['product_name'] ?></td>
+              <td><?php echo date('j F Y', strtotime($v['trx_date'])) ?></td>
+              <td><?php echo "Rp. ".number_format($v['trx_price'], false, false, ".") ?></td>
               </tr>
               <?php endforeach ?>
             </tbody>
@@ -113,11 +113,11 @@ var chart = document.getElementById("myChart").getContext('2d');
 var areaChart = new Chart(chart, {
   type: 'bar',
   data: {
-    labels: <?php echo json_encode($month); ?>,
+    labels: <?php echo json_encode($month) ?>,
     datasets: [
       {
         label: "Grafik Penjualan",
-        data: <?php echo json_encode($total); ?>,
+        data: <?php echo json_encode($total) ?>,
         backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
           'rgba(54, 162, 253, 0.2)',

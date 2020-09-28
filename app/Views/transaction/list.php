@@ -34,15 +34,15 @@
       </thead>
       <tbody>
       <?php if(empty($list)) : ?>
-      <tr><td colspan="5"><h3>Belum ada data</h3><p>Silahkan menambahkan data terlebih dahulu.</p></td></tr>      
+      <tr><td colspan="6"><h3>Belum ada data</h3><p>Silahkan menambahkan data terlebih dahulu.</p></td></tr>      
       <?php else : ?>
       <?php foreach($list as $k => $v) : ?>
       <tr>
-        <td><?= esc(++$k) ?></td>
-        <td><h6><?= esc($v['product_name']) ?></h6></td>
+        <td><?= ++$k ?></td>
+        <td><h6><?= $v['product_name'] ?></h6></td>
         <td><h6><?= esc($v['trx_qty']) ?></h6></td>
-        <td><?php echo date('d-m-Y', strtotime($v['trx_date'])) ?></td>
-        <td><?php echo "Rp. ".number_format($v['trx_price']) ?></td>
+        <td><?= date('d-m-Y', strtotime($v['trx_date'])) ?></td>
+        <td><?= "Rp. ".number_format($v['trx_price']) ?></td>
         <td>
         <div class="btn-group">
           <button type="button" class="btn btn-info btn-sm" title="<?= esc($v['product_name']) ?>" onclick="window.location.href='<?= esc($update . $v['trx_id']) ?>'">
@@ -52,7 +52,7 @@
         </div>
         <?php
           $modals = [
-            'id' => 'modal_'.esc($k),
+            'id' => 'modal_'.$k,
             'size' => 'modal-sm',
             'class' => 'bg-warning',
             'title' => 'Delete Transaction',
@@ -73,6 +73,9 @@
 
 </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
 <?php
 if(! empty(session()->getFlashdata('success'))) {
   $toast = [

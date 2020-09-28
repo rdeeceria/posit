@@ -31,8 +31,8 @@
       <label for="">Status</label>
       <select name="category_status" class="custom-select" required>
         <option value="">Choose Category</option>
-        <option <?= old('category_status') == 'Active' ? 'selected' : ''; ?> value="Active">Active</option>
-        <option <?= old('category_status') == 'Inactive' ? 'selected' : ''; ?> value="Inactive">Inactive</option>
+        <option <?= old('category_status') == 'Active' ? 'selected' : '' ?> value="Active">Active</option>
+        <option <?= old('category_status') == 'Inactive' ? 'selected' : '' ?> value="Inactive">Inactive</option>
       </select>
     </div>
   </div>   
@@ -45,6 +45,9 @@
 
 </div>
 </div>
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
 <?php
 if(! empty(session()->getFlashdata('success'))) {
   $toast = [
