@@ -63,6 +63,9 @@
       </div>
       <div class="card-body">
         <?php
+        $total = array();
+        $month = array();
+
         foreach($grafik as $data) :
           $total[] = $data['total'];
           $month[] = $data['month'];

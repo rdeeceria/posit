@@ -28,6 +28,8 @@ class M_Dashboard extends Model
 
   public function getGrafik()
   {
+    $hasil = array();
+    
     $query = $this->query("SELECT 
       trx_price, MONTHNAME(trx_date) as month, 
       COUNT(product_id) as total 
