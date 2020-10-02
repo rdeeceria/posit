@@ -35,37 +35,30 @@ class Auth extends BaseController
       $email = $this->request->getPost('email');
       $password = $this->request->getPost('password');
 
-      $data = $this->M_Auth->userCheck($email);
-      
-      if(! empty($data)) {
-        
-        if($data['status'] == 'Inactive') {
-          $this->session->setFlashdata('errors', 'Akun anda belum aktif, Silahkan Contact Administrator');
-          return redirect()->to('/');
-        }
+      $check = $this->M_Auth->userLogin($email, $password);
 
-        if(password_verify($password, $data['password'])) {
-          $dataSession = [
-            'id' => $data['id'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'status' => $data['status'],
-          ];
-          $this->session->set($dataSession);
+      switch($check) {
 
-          return redirect()->route('dashboard');
-        }
-        else
-        {
+        case 1:
           $this->session->setFlashdata('errors', 'Password yang Anda masukan salah');
           return redirect()->back();
-        }
-      } 
-      else 
-      {
-        $this->session->setFlashdata('errors', 'Email yang Anda masukan tidak terdaftar');
-        return redirect()->to('/');
+          break;
+
+        case 2:
+          $this->session->setFlashdata('errors', 'Akun anda belum aktif, Silahkan Contact Administrator');
+          return redirect()->to('/');
+          break;
+
+        case true:
+          return redirect()->route('dashboard');
+          break;
+
+        case false:
+          $this->session->setFlashdata('errors', 'Email yang Anda masukan tidak terdaftar');
+          return redirect()->to('/');
+          break;
       }
+      
     }
   }
 

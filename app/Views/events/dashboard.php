@@ -68,7 +68,7 @@
           $month[] = $data['month'];
         endforeach;
         ?>
-        <canvas id="myChart" width="100%" height="45"></canvas>
+        <canvas id="chartPenjualan" width="100%" height="45"></canvas>
       </div>
     </div>
   </div>
@@ -108,57 +108,16 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
-<script>
-var chart = document.getElementById("myChart").getContext('2d');
-var areaChart = new Chart(chart, {
-  type: 'bar',
-  data: {
-    labels: <?php echo json_encode($month) ?>,
-    datasets: [
-      {
-        label: "Grafik Penjualan",
-        data: <?php echo json_encode($total) ?>,
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 253, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 255, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 253, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 255, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1
-      }
-    ]
-  },
-  options: {
-    scales: {
-      xAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'Month'
-        }
-      }],
-      yAxes: [{
-        display: true,
-        scaleLabel: {
-          display: true,
-          labelString: 'Transaction'
-        },
-        ticks: {
-          beginAtZero: true
-        }
-      }]
-    }
-  }
-});
-</script>
+<?php
+$chart = [
+  'id' => 'chartPenjualan',
+  'type' => 'bar',
+  'title' => 'Grafik Penjualan',
+  'labels' => $month,
+  'values' => $total,
+  'xlabels' => 'Month',
+  'ylabels' => 'Transactions',
+];
+echo view('events/chart', $chart); 
+?>
 <?= $this->endSection() ?>

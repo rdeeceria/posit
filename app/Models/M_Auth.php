@@ -8,30 +8,54 @@ class M_Auth extends Model
   protected $primaryKey = 'id';
   protected $allowedFields = ['id','username','name','email','password','status','level'];
  
-  public function userCheck($email)
+  public function userLogin($email, $password)
   {
     $query = $this->where('email', $email)->countAll();
 
     if($query > 0) {
-      $hasil = $this->where('email', $email)
+      $data = $this->where('email', $email)
       ->limit(1)->get()->getRowArray();
     } 
     else 
     {
-      $hasil = array(); 
+      $data = array(); 
     }
-    return $hasil;
+    
+    if(! empty($data)) {
+        
+      if($data['status'] == 'Inactive') {
+        return 2;
+      }
+
+      if(password_verify($password, $data['password'])) {
+        $dataSession = [
+          'id' => $data['id'],
+          'username' => $data['username'],
+          'name' => $data['name'],
+          'email' => $data['email'],
+          'status' => $data['status'],
+        ];
+        session()->set($dataSession);
+
+        return true;
+      }
+      else
+      {
+        return 1;
+      }
+
+    } 
+    else 
+    {
+      return false;
+    }
+
   }
  
   public function register($data)
   {
     $this->insert(array('id' => uniqid()) + $data);
     return true;
-  }
-
-  public function userId($id)
-  {
-    return $this->where('id', $id)->first();
   }
 
   public function authlogin()

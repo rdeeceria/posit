@@ -8,7 +8,7 @@ class loginSession implements FilterInterface
 {
   public function before(RequestInterface $request, $arguments = null)
   {
-    if(session('id') == null || session('status') == "Inactive") {
+    if(! session()->has('id')) {
       return redirect()->to('/');
     }
   }

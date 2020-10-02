@@ -54,7 +54,7 @@ class M_Category extends Model
     return [
       'category_name' => [
       'label' => 'Category Name',
-      'rules' => 'required|max_length[20]|is_unique[categories.category_name,category_id,'.$id.']',
+      'rules' => 'required|max_length[30]|is_unique[categories.category_name,category_id,'.$id.']',
       'errors' => [
         'is_unique' => 'Data {field} {value} Sudah Ada',
         'max_length' => '{field} Maximum {param} Character',

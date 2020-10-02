@@ -64,21 +64,8 @@ $routes->group('transaction', ['filter' => 'isLoggedIn'], function($routes) {
 
 $routes->group('api', ['namespace' => 'App\Controllers\Api'], function($routes) {
 
-	$routes->group('categories', function($routes) {
-		$routes->get('', 'categories::index');
-		$routes->get('(:any)', 'categories::show/$1');
-		$routes->post('create', 'categories::create');
-		$routes->put('(:any)', 'categories::update/$1');
-		$routes->delete('(:any)', 'categories::delete/$1');
-	});
-
-	$routes->group('products', function($routes) {
-		$routes->get('', 'products::index');
-		$routes->get('(:any)', 'products::show/$1');
-		$routes->post('create', 'products::create');
-		$routes->put('(:any)', 'products::update/$1');
-		$routes->delete('(:any)', 'products::delete/$1');
-	});
+	$routes->resource('categories');
+	$routes->resource('products');
 	
 });
 
