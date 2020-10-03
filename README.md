@@ -2,15 +2,15 @@
 ## sebuah pembelajaran aplikasi menggunakan codeigniter 4 dan AdminLTE 3
 Versi lain dari tutorial ilmucoding. dan masih bisa dikembangkan lagi..<br/>
 
-Ini baru awalan, setidak'y ada 20% dari fitur codeigniter yang di ekspose dsini, dan masih 80% lagi fitur yang belum di ekspose. `Wadidaw Si LEGEND Ini`. Mari sama2 belajar.
+Ini baru awalan, setidak'y ada 15% dari fitur codeigniter yang di ekspose dsini, dan masih 85% lagi fitur yang belum di ekspose. `Wadidaw Si LEGEND Ini`.
 
 ### Fitur:
-1. layout
-2. validation
-3. middleware, filters, REST
+1. layout, themes
+2. validation, sesssion
+3. filters, REST
 3. modals, toast, chart
 4. upload, download
-5. dsb..
+5. dsb..6789
 
 ### Tahap penggunaan:
 1. install composer [setup-windows](https://getcomposer.org/Composer-Setup.exe)
